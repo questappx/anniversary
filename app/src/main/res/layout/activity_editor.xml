@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:ignore="UsingOnClickInXml"
+    android:layout_height="match_parent"
+    tools:context="com.questappx.anniversary.EditorActivity"
+    >
+
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@color/mainAppColor">
+
+        <ImageButton
+            android:id="@+id/backArrowBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:background="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/backArrowBtn"
+            android:paddingLeft="@dimen/_5sdp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp" />
+
+        <TextView
+            android:id="@+id/shareappTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/_10sdp"
+            android:text="Share App"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/fbAdLayout"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_below="@id/title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Space for Ads" />
+
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/banner_container"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:background="#FFF"-->
+<!--            android:orientation="vertical" />-->
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/admob_banner"
+            >
+
+        </com.google.android.gms.ads.AdView>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layoutArtboard"
+        android:layout_below="@id/fbAdLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_300sdp"
+        android:background="#DCD6D6"
+        android:layout_above="@id/footerDivider"
+        android:gravity="center"
+        >
+
+        <com.xiaopo.flying.sticker.StickerView
+            android:id="@+id/stickerview_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageview_filter"
+            android:scaleType="fitXY"
+            android:alpha="0.3"
+            />
+
+        <ImageView
+            android:id="@+id/imageview_Bg"
+            android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:layout_height="match_parent"
+            />
+
+
+        <com.xiaopo.flying.logoSticker.StickerView
+            android:id="@+id/stickerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <RelativeLayout
+                android:id="@+id/stickerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </com.xiaopo.flying.logoSticker.StickerView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageview_filterUpside"
+            android:scaleType="fitXY"
+            android:alpha="0.3"
+            />
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/footerDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_above="@id/layoutFooter"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="#A19E9E" />
+
+    <LinearLayout
+        android:id="@+id/layoutFooter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_55sdp"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/framesBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/frame_icon" />
+
+            <TextView
+                android:id="@+id/framesTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Frames"
+                android:textColor="@color/lightblack"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_weight="1"
+            android:id="@+id/galleryLayout"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/cropBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/gallery_icon" />
+
+            <TextView
+                android:id="@+id/cropTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Gallery"
+                android:textColor="@color/lightblack"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/filterBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/effect_icon" />
+
+            <TextView
+                android:id="@+id/filterTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Filter"
+                android:textColor="@color/lightblack"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/addTextBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/addtext_icon" />
+
+            <TextView
+                android:id="@+id/addTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text=" Text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/addStickerImgBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/sticker_icon" />
+
+            <TextView
+                android:id="@+id/addStickerTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text=" Sticker"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/saveImgBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/save_icon" />
+
+            <TextView
+                android:id="@+id/saveTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Save"
+                android:textColor="@color/lightblack"
+                android:textSize="@dimen/_9sdp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearlayoutList2"
+        android:layout_above="@id/layoutFooter"
+        >
+
+        <include layout="@layout/linear_layoutlist2" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/linearlayoutList1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearlayoutList2"
+        >
+
+        <include layout="@layout/linear_layoutslist1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/linearlayoutList3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearlayoutList2"
+        >
+
+        <include layout="@layout/linear_layoutlist3" />
+    </RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>

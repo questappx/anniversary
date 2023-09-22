@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--    /* Layout for frames*/-->
+
+    <RelativeLayout
+        android:id="@+id/linearlayout_frames"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/categoryFramesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:gravity="center">
+
+            <TextView
+
+                android:id="@+id/switchFrameCategory"
+                android:layout_width="@dimen/_85sdp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_shape"
+                android:backgroundTint="@color/mainAppColor"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="Wedding"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_1sdp"-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:layout_marginTop="@dimen/_1sdp"-->
+        <!--            android:background="#A19E9E"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categoryFramesLayout"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/cross"
+                    android:backgroundTint="#222121" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="invisibleList1" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_frames"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <!--    /* Layout for Colors*/-->
+    <RelativeLayout
+        android:id="@+id/linearlayout_colors"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/_61sdp"
+        android:background="@color/white">
+
+        <!--        <View-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:layout_marginTop="@dimen/_1sdp"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_1sdp"-->
+        <!--            android:background="#A19E9E"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:orientation="horizontal"
+
+            >
+
+            <RelativeLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/cross"
+                    android:backgroundTint="#222121" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="invisibleList1" />
+
+            </RelativeLayout>
+
+            <ImageButton
+                android:id="@+id/textColorPickerBtn"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/colorpicker" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_5sdp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_colors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <!--    /* Layout for Fonts*/-->
+    <RelativeLayout
+        android:id="@+id/linearlayout_fonts"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/_61sdp"
+        android:background="@color/white"
+        >
+
+        <!--        <View-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:layout_marginTop="@dimen/_1sdp"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_1sdp"-->
+        <!--            android:background="#A19E9E"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/cross"
+                    android:backgroundTint="#222121" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="invisibleAllLists"  />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_fonts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--    /* Layout for Filters*/-->
+    <RelativeLayout
+        android:id="@+id/linearlayout_filters"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_85sdp"
+        android:background="@color/white"
+        android:visibility="gone"
+        android:paddingTop="@dimen/_3sdp">
+
+        <!--        <View-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_marginTop="@dimen/_1sdp"-->
+        <!--            android:layout_height="@dimen/_1sdp"-->
+        <!--            android:background="#A19E9E"/>-->
+
+        <SeekBar
+            android:id="@+id/filterSeekOpacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_8sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/filterSeekOpacity"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/cross"
+                    android:backgroundTint="#222121" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="invisibleList1"  />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_filters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+<!--    Layout For Stickers-->
+    <RelativeLayout
+        android:id="@+id/linearlayout_stickers"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/_61sdp"
+        android:background="@color/white">
+
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_1sdp"-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:layout_marginTop="@dimen/_1sdp"-->
+        <!--            android:background="#A19E9E"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/cross"
+                    android:backgroundTint="#222121" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="invisibleList1"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_stickers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

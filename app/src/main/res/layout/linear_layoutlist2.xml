@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--    Layout for Text Adjusments-->
+    <RelativeLayout
+        android:id="@+id/linearlayout_textAdjustments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp">
+
+
+        <LinearLayout
+            android:id="@+id/footerTextAdjustLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            //Edit Text Button
+
+            <RelativeLayout
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <ImageButton
+                    android:id="@+id/edittextImgBtn"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/edittext_icon"
+
+                    />
+
+                <TextView
+                    android:id="@+id/editTextTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edittextImgBtn"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Edit Text"
+                    android:textColor="@color/lightblack"
+                    android:textSize="@dimen/_7sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/editTextBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
+
+            //Change Color Button
+
+            <RelativeLayout
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/changeColorImg"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/color_icon" />
+
+                <TextView
+                    android:id="@+id/changeColorTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/changeColorImg"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Colors"
+                    android:textColor="@color/lightblack"
+                    android:textSize="@dimen/_7sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/changeColorBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
+
+            //Change Shadow Button
+
+            <RelativeLayout
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/shadowImg"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/shadow_icon" />
+
+                <TextView
+                    android:id="@+id/shadowTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/shadowImg"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Shadow"
+                    android:textColor="@color/lightblack"
+                    android:textSize="@dimen/_7sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/shadowBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+            //Change Font Button
+
+            <RelativeLayout
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+
+                <ImageButton
+                    android:id="@+id/changeFontImgBtn"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/font_icon" />
+
+                <TextView
+                    android:id="@+id/changeFontTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/changeFontImgBtn"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Font"
+                    android:textColor="@color/lightblack"
+                    android:textSize="@dimen/_7sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/changeFontBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+
+                <ImageButton
+                    android:id="@+id/changeTextOpacityImgBtn"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/opacity_icon" />
+
+                <TextView
+                    android:id="@+id/tvchangeTextOpacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/changeTextOpacityImgBtn"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Opacity"
+                    android:textColor="@color/lightblack"
+                    android:textSize="@dimen/_7sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/changeTextOpacityBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+<!--    Layout For Sticker Adjustment-->
+    <RelativeLayout
+        android:id="@+id/linearlayout_StickerAdjustments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/stickerOpacityTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:text="Sticker Opacity"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/seekbarStickerOpacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stickerOpacityTv"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:padding="@dimen/_10sdp" />
+
+
+        <LinearLayout
+            android:id="@+id/footerStickerAdjustLayout"
+            android:layout_below="@id/seekbarStickerOpacity"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+            <!--    /* Layout for Colors*/-->
+            <RelativeLayout
+                android:id="@+id/linearlayout_stickerColors"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/stickerColorTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:text="Sticker Color"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+
+                <ImageButton
+                    android:id="@+id/stickerColorPickerBtn"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:background="@drawable/colorpicker" />
+
+                <!--                    <RelativeLayout-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginLeft="@dimen/_5sdp">-->
+
+                <!--                        <androidx.recyclerview.widget.RecyclerView-->
+                <!--                            android:id="@+id/recyclerviewStickerColors"-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content" />-->
+                <!--                    </RelativeLayout>-->
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

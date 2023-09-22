@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/border_shape"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:text="Watch Ad / Download App"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13sdp" />
+
+    <ImageView
+        android:id="@+id/otherFrameIv"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:background="@color/grey"
+        />
+
+    <TextView
+        android:id="@+id/edittextDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otherFrameIv"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:justificationMode="inter_word"
+        android:text="Do you want to watch ad to unlock this premium graphic? Watch ad to use."
+        android:textSize="@dimen/_13sdp" />
+
+    <TextView
+        android:id="@+id/dialogBtnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edittextDialog"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@color/grey"
+        android:padding="@dimen/_10sdp"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_9sdp" />
+
+    <TextView
+        android:id="@+id/dialogBtnOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edittextDialog"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@color/red"
+        android:padding="@dimen/_10sdp"
+        android:text="Watch"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_9sdp" />
+
+    <TextView
+        android:id="@+id/dialogBtnDownloadApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edittextDialog"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_toLeftOf="@id/dialogBtnOk"
+        android:background="@color/red"
+        android:padding="@dimen/_10sdp"
+        android:text="Download App"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_9sdp" />
+
+</RelativeLayout>

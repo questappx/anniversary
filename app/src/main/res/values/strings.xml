@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Anniversary Photo Editor</string>
+    <string name="fileName">Quest Anniversary Editor</string>
+    <string name="app">Anniversary</string>
+    <string name="disclaimer">The graphics used in this app is may gathered from different resources. It belongs to their respective owners. If there is any query/issue please contacts us at questappx@gmail.com</string>
+
+
+    //anniversary
+    <string name="facebook_app_id">476626577885401</string>
+    <string name="admob_app_id">ca-app-pub-7236509513325540~4640799652</string>
+<!--    <string name="old_admob_rewarded_id">ca-app-pub-7236509513325540/6763581874</string>-->
+    <string name="admob_rewarded_id">ca-app-pub-7236509513325540/6902445266</string>
+    <string name="rate_title">Rate Us</string>
+    <string name="rate_message">Are you enjoying using this app?</string>
+    <string name="rate_positive">Rate Now</string>
+    <string name="rate_remind_later">Remind me later</string>
+    <string name="rate_never">Skip</string>
+    <string name="AppOpen">ca-app-pub-7236509513325540/9795383672</string>
+    <string name="admob_banner">ca-app-pub-7236509513325540/1734434944</string>
+    <string name="admob_interstitial">ca-app-pub-7236509513325540/9700237642</string>
+
+</resources>
