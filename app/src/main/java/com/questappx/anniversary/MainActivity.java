@@ -42,6 +42,7 @@ import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.FormError;
 import com.google.android.ump.UserMessagingPlatform;
 import com.questappx.anniversary.AdsWorking.InterstitialAdImplement;
+import com.questappx.anniversary.Extras.AppOpenManager;
 import com.questappx.anniversary.Extras.CategoryActivity;
 import com.questappx.anniversary.Extras.RateItDialogFragment;
 import com.questappx.anniversary.Extras.Utility;
@@ -53,9 +54,10 @@ public class MainActivity extends AppCompatActivity {
     ImageButton createFramesBtn, shareApp, moreApp, quoteBtn, rateusBtn;
     TextView disclaimerBtn,privacyPolicy;
 
+    public static AppOpenManager appOpenManager;
+
     public static RewardedAd mRewardedAd;
 
-    public static com.facebook.ads.InterstitialAd fbInterstitial;
     public static InterstitialAdImplement interstitialAdImplement;
     public static InterstitialAd interstitialAd;
 
@@ -80,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd, fbInterstitial);
+        interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd);
+        interstitialAdImplement.loadInterstitialCall();
         interstitialAdImplement.setItemClickListener(new RecyclerListener() {
             @Override
             public void OnClick(int position) {
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         linkXml();
         clicklisteners();
 
-        interstitialAdImplement.loadInterstitialCall();
+//        interstitialAdImplement.loadInterstitialCall();
     }
 
     private void loadForm() {
@@ -369,6 +372,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void SplashWorking() {
+        appOpenManager = new AppOpenManager(MainActivity.this);
+        appOpenManager.method = 1;
+
+
         splashLayout = findViewById(R.id.splashScreen);
         splashLayout.setVisibility(View.VISIBLE);
 //        ProgressBar progressBar = findViewById(R.id.splashProgressBar);
@@ -380,8 +387,16 @@ public class MainActivity extends AppCompatActivity {
                 splashLayout.setVisibility(View.GONE);
                 checkPermissions();
 
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        appOpenManager.method = 0;
+                    }
+                },1000);
+
             }
-        }, 4000);
+        }, 4500);
     }
 
     private void localAdsLink(int i)

@@ -155,10 +155,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     int proFrames[] = { 6, 12, 18, 22, 27, 33, 43, 38, 41, 46, 54, 49, 59, 61};
     private boolean isProContent(int position) {
-        if(list[position].contains("4") || list[position].contains("3"))
-        {
-            return true;
-        }
+//        if(list[position].contains("4") || list[position].contains("3"))
+//        {
+//            return true;
+//        }
 
 //        for(int i=0;i<proFrames.length;i++)
 //        {

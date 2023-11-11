@@ -1,5 +1,7 @@
 package com.questappx.anniversary.Extras;
 
+import static com.questappx.anniversary.MainActivity.interstitialAdImplement;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,13 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
-import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.InterstitialAdListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.questappx.anniversary.AdsWorking.BannerAdImplement;
 import com.questappx.anniversary.Data;
 import com.questappx.anniversary.QuoteAdapter;
@@ -33,8 +29,6 @@ public class WishesActivity extends AppCompatActivity {
     ArrayList<String>  quoteList;
     QuoteAdapter quoteAdapter;
     public String TAG = "err";
-
-    private InterstitialAd interstitialAd;
 
     int activityOpenAd = 0;
 
@@ -159,125 +153,20 @@ public class WishesActivity extends AppCompatActivity {
         });
         recyclerViewQuotes.setAdapter(quoteAdapter);
 
-        initializeFBAdSdk();
-        initializeFB_Interstitial();
-    }
-
-    private void initializeFB_Interstitial() {
-//        interstitialAd = new InterstitialAd(this, "IMG_16_9_APP_INSTALL#"+Data.FB_INTERSTITIAL_ID);
-        interstitialAd = new InterstitialAd(this, Data.FB_INTERSTITIAL_ID);
-        // Create listeners for the Interstitial Ad
-        InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
-//                Toast.makeText(EditorActivity.this, "intersitial displayed", Toast.LENGTH_SHORT).show();
-//                interstitialAd.loadAd(
-//                        interstitialAd.buildLoadAdConfig()
-//                                .withAdListener(this)
-//                                .build());
-            }
-
-
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-                // Interstitial dismissed callback
-                Log.e(TAG, "Interstitial ad dismissed.");
-                interstitialAd.loadAd(
-                        interstitialAd.buildLoadAdConfig()
-                                .withAdListener(this)
-                                .build());
-            }
-
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-                Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
-//                Toast.makeText(EditorActivity.this, adError.getErrorMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                // Interstitial ad is loaded and ready to be displayed
-                Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
-                if (activityOpenAd == 0) {
-                    activityOpenAd++;
-                    showFbInterstitial();
-                }
-//                Toast.makeText(EditorActivity.this, "on adLoaded", Toast.LENGTH_SHORT).show();
-                // Show the ad
-//                interstitialAd.show();
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Ad clicked callback
-                Log.d(TAG, "Interstitial ad clicked!");
-//                Toast.makeText(EditorActivity.this, "onAdClicked", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
-                Log.d(TAG, "Interstitial ad impression logged!");
-//                Toast.makeText(EditorActivity.this, "onLogingImpression", Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        // For auto play video ads, it's recommended to load the ad
-        // at least 30 seconds before it is shown
-        interstitialAd.loadAd(
-                interstitialAd.buildLoadAdConfig()
-                        .withAdListener(interstitialAdListener)
-                        .build());
     }
 
 
 
-    private void initializeFBAdSdk() {
-
-        AdListener adListener = new AdListener() {
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-
-                Log.d(TAG, "onError Banner");
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                // Ad loaded callback
-                Log.d(TAG, "onAdLoaded Banner");
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Ad clicked callback
-                Log.d(TAG, "onAdClicked Banner");
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
-                Log.d(TAG, "onLogging Impression Banner");
-            }
-        };
-
-        new BannerAdImplement(this, findViewById(R.id.adView));
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                RateItDialogFragment.show(getApplicationContext(), getSupportFragmentManager());
-            }
-        },2000);
-    }
 
     private void showRandomAd(int bound) {
         Random random = new Random();
         int rand = random.nextInt(bound);
         if(rand == 0)
         {
-            showFbInterstitial();
+            if(interstitialAdImplement != null)
+            {
+                interstitialAdImplement.showInterstitial();
+            }
         }
     }
 
@@ -287,18 +176,5 @@ public class WishesActivity extends AppCompatActivity {
         finish();
     }
 
-    private void showFbInterstitial() {
-        if(interstitialAd.isAdInvalidated())
-        {
-            return;
-        }
 
-        if(interstitialAd.isAdLoaded())
-        {
-            interstitialAd.show();
-        }
-        else {
-            return;
-        }
-    }
 }

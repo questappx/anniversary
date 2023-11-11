@@ -1,6 +1,7 @@
 package com.questappx.anniversary;
 
-import static com.questappx.anniversary.MainActivity.fbInterstitial;
+
+import static com.questappx.anniversary.MainActivity.appOpenManager;
 import static com.questappx.anniversary.MainActivity.interstitialAd;
 import static com.questappx.anniversary.MainActivity.interstitialAdImplement;
 import static com.questappx.anniversary.MainActivity.loadRewardedAdmobAd;
@@ -35,6 +36,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -55,14 +57,6 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
-import com.facebook.ads.AudienceNetworkAds;
-import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.InterstitialAdListener;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.questappx.anniversary.AdsWorking.BannerAdImplement;
@@ -97,242 +91,409 @@ public class EditorActivity extends AppCompatActivity {
 
     public  String[] squareWedDrawable = {
 //            R.drawable.square11,R.drawable.square2,R.drawable.square3,R.drawable.square4,R.drawable.square9,R.drawable.square6,R.drawable.square13,R.drawable.square8,R.drawable.square5,R.drawable.square10,R.drawable.square1,R.drawable.square12,R.drawable.square7,R.drawable.square14
-            "https://aster12.000webhostapp.com/Frames/wedding/square1.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square2.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square3.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square4.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square5.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square6.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square7.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square8.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square9.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square10.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square11.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square12.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square13.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square14.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square15.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square16.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square17.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square18.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square19.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square20.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square21.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square22.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square23.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square24.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square25.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/square26.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square1.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square2.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square3.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square4.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square5.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square6.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square7.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square8.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square9.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square10.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square11.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square12.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square13.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square14.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square15.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square16.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square17.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square18.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square19.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/sqr/square20.webp"
             };
     public String[] portraitAnniDrawable = {
 //            R.drawable.anni_portrait1,R.drawable.anni_portrait2,R.drawable.anni_portrait3,R.drawable.anni_portrait4,R.drawable.anni_portrait5,R.drawable.anni_portrait6,R.drawable.anni_portrait7,R.drawable.anni_portrait8,R.drawable.anni_portrait9,R.drawable.anni_portrait10,R.drawable.anni_portrait11,R.drawable.anni_portrait12,R.drawable.anni_portrait13,R.drawable.anni_portrait14,R.drawable.anni_portrait15,R.drawable.anni_portrait16,R.drawable.anni_portrait17,R.drawable.anni_portrait18,R.drawable.anni_portrait19,R.drawable.anni_portrait20,R.drawable.anni_portrait21,R.drawable.anni_portrait22,R.drawable.anni_portrait23,R.drawable.anni_portrait24,R.drawable.anni_portrait25,R.drawable.anni_portrait26,R.drawable.anni_portrait27,R.drawable.anni_portrait28,R.drawable.anni_portrait29,R.drawable.anni_portrait30,R.drawable.anni_portrait31,R.drawable.anni_portrait32,R.drawable.anni_portrait33,
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait1.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait2.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait3.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait4.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait5.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait6.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait7.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait8.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait9.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait10.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait11.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait12.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait13.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait14.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait15.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait16.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait17.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait18.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait19.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait20.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait21.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait22.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait23.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait24.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait25.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait26.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait27.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait28.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait29.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait30.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait31.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait32.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait33.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait1.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait2.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait3.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait4.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait5.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait6.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait7.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait8.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait9.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait10.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait11.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait12.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait13.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait14.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait15.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait16.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait17.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait18.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait19.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait20.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait21.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait22.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait23.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait24.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait25.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait26.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait27.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait28.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait29.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait30.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait31.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait32.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait33.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt1.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt2.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt3.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt4.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt5.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt6.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt7.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt8.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt9.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt10.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt11.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt12.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt13.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt14.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt15.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt16.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt17.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt18.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt19.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt20.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt21.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt22.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt23.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt24.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt25.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt26.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt27.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt28.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt29.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt30.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt31.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt32.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt33.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt34.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt35.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt36.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt37.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt38.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt39.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt40.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt41.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt42.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt43.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt44.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt45.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/prt/anni_prt46.webp"
     };
     public String[] squareAnniDrawable = {
 //            R.drawable.anni_square1,R.drawable.anni_square2,R.drawable.anni_square3,R.drawable.anni_square4,R.drawable.anni_square6,R.drawable.anni_square7,R.drawable.anni_square8,R.drawable.anni_square5,R.drawable.anni_square9,R.drawable.anni_square10,R.drawable.anni_square11,R.drawable.anni_square12,R.drawable.anni_square13,R.drawable.anni_square14,R.drawable.anni_square15,R.drawable.anni_square16,R.drawable.anni_square17,R.drawable.anni_square18,R.drawable.anni_square19,R.drawable.anni_square20,R.drawable.anni_square21,R.drawable.anni_square22,R.drawable.anni_square23,R.drawable.anni_square24,R.drawable.anni_square25,R.drawable.anni_square26,R.drawable.anni_square27,R.drawable.anni_square28,R.drawable.anni_square29,R.drawable.anni_square30,R.drawable.anni_square31,R.drawable.anni_square32,R.drawable.anni_square33,R.drawable.anni_square34
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square1.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square2.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square3.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square4.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square5.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square6.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square7.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square8.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square9.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square10.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square11.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square12.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square13.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square14.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square15.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square16.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square17.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square18.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square19.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square20.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square21.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square22.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square23.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square24.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square25.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square26.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square27.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square28.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square29.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square30.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square31.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square32.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square33.webp",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square34.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square1.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square2.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square3.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square4.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square5.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square6.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square7.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square8.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square9.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square10.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square11.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square12.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square13.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square14.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square15.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square16.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square17.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square18.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square19.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square20.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square21.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square22.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square23.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square24.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square25.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square26.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square27.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square28.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square29.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square30.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square31.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square32.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square33.webp",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_square34.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square1.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square2.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square3.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square4.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square5.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square6.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square7.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square8.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square9.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square10.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square11.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square12.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square13.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square14.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square15.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square16.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square17.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square18.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square19.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square20.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square21.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square22.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square23.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square24.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square25.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square26.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square27.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square28.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square29.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square30.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square31.webp",
+            "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square32.webp"
             };
     public String[] portraitWedDrawable = {
 //            R.drawable.new_wed_portrait1,R.drawable.new_wed_portrait2,R.drawable.new_wed_portrait3,R.drawable.new_wed_portrait4,R.drawable.new_wed_portrait5,R.drawable.new_wed_portrait6,R.drawable.new_wed_portrait7,R.drawable.new_wed_portrait8,R.drawable.new_wed_portrait9,R.drawable.new_wed_portrait10,R.drawable.new_wed_portrait11,R.drawable.new_wed_portrait12,R.drawable.new_wed_portrait13,R.drawable.new_wed_portrait14,R.drawable.new_wed_portrait15
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait1.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait2.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait3.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait4.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait5.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait6.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait7.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait8.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait9.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait10.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait11.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait12.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait13.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait14.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait15.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait16.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait17.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait18.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait19.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait20.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait21.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait22.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait23.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait24.webp",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait25.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait1.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait2.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait3.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait4.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait5.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait6.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait7.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait8.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait9.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait10.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait11.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait12.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait13.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait14.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait15.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait16.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait17.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait18.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait19.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait20.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait21.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait22.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait23.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait24.webp",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait25.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait1.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait2.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait3.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait4.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait5.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait6.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait7.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait8.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait9.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait10.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait11.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait12.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait13.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait14.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait15.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait16.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait17.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait18.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait19.webp",
+            "https://questappx.website/apps/anniversary/frames/wed/prt/wed_portrait20.webp"
     };
     public String[] anniInviteDrawable = {
 //            R.drawable.anni_invitation1,R.drawable.anni_invitation2,R.drawable.anni_invitation3,R.drawable.anni_invitation4,R.drawable.anni_invitation5,R.drawable.anni_invitation6,R.drawable.anni_invitation12, R.drawable.anni_invitation7,R.drawable.anni_invitation8,R.drawable.anni_invitation9,R.drawable.anni_invitation10,R.drawable.anni_invitation11 ,R.drawable.anni_invitation13,R.drawable.anni_invitation14,R.drawable.anni_invitation15,R.drawable.anni_invitation16,R.drawable.anni_invitation17,R.drawable.anni_invitation18,R.drawable.anni_invitation19,R.drawable.anni_invitation20,R.drawable.anni_invitation21,R.drawable.anni_invitation22,R.drawable.anni_invitation23,R.drawable.anni_invitation24,R.drawable.anni_invitation25,R.drawable.anni_invitation26,R.drawable.anni_invitation27,R.drawable.anni_invitation28,R.drawable.anni_invitation29,R.drawable.anni_invitation30,R.drawable.anni_invitation31,R.drawable.anni_invitation32,R.drawable.anni_invitation33,R.drawable.anni_invitation34,R.drawable.anni_invitation36,R.drawable.anni_invitation37,R.drawable.anni_invitation38,R.drawable.anni_invitation39,R.drawable.anni_invitation40,R.drawable.anni_invitation41,R.drawable.anni_invitation42,R.drawable.anni_invitation43,R.drawable.anni_invitation44,R.drawable.anni_invitation45,R.drawable.anni_invitation46,R.drawable.anni_invitation47,R.drawable.anni_invitation48,R.drawable.anni_invitation49,R.drawable.anni_invitation35,R.drawable.anni_invitation50
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation1.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation2.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation3.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation4.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation5.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation6.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation7.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation8.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation9.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation10.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation11.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation12.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation13.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation14.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation15.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation16.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation17.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation18.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation19.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation20.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation21.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation22.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation23.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation24.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation25.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation26.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation27.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation28.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation29.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation30.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation31.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation32.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation33.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation34.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation35.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation36.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation37.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation38.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation39.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation40.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation41.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation42.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation43.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation44.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation45.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation46.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation47.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation48.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation49.png",
-            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation50.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation1.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation2.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation3.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation4.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation5.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation6.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation7.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation8.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation9.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation10.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation11.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation12.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation13.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation14.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation15.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation16.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation17.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation18.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation19.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation20.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation21.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation22.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation23.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation24.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation25.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation26.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation27.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation28.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation29.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation30.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation31.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation32.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation33.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation34.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation35.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation36.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation37.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation38.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation39.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation40.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation41.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation42.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation43.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation44.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation45.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation46.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation47.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation48.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation49.png",
+//            "https://aster12.000webhostapp.com/Frames/anniversary/anni_invitation50.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation1.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation2.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation3.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation4.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation5.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation6.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation7.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation8.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation9.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation10.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation11.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation12.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation13.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation14.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation15.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation16.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation17.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation18.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation19.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation20.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation21.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation22.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation23.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation24.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation25.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation26.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation27.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation28.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation29.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation30.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation31.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation32.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation33.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation34.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation35.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation36.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation37.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation38.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation39.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation40.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation41.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation42.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation43.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation44.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation45.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation46.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation47.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation48.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation49.png",
+            "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation50.png"
             };
 
     public String[] wedInvitationDrawable = {
 //            R.drawable.wed_invitation38,R.drawable.wed_invitation39,R.drawable.wed_invitation40,R.drawable.wed_invitation19,R.drawable.wed_invitation15,R.drawable.wed_invitation43,R.drawable.wed_invitation2,R.drawable.wed_invitation21,R.drawable.wed_invitation9,R.drawable.wed_invitation47,R.drawable.wed_invitation48,R.drawable.wed_invitation49,R.drawable.wed_invitation50
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation1.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation2.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation3.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation4.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation5.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation6.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation7.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation8.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation9.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation10.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation11.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation12.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation13.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation14.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation15.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation16.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation17.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation18.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation19.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation20.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation21.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation22.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation23.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation24.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation25.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation26.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation27.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation28.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation29.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation30.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation31.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation32.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation33.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation34.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation35.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation36.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation37.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation38.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation39.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation40.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation41.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation42.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation43.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation44.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation45.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation46.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation47.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation48.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation49.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation50.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation51.png",
-            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation52.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation1.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation2.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation3.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation4.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation5.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation6.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation7.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation8.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation9.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation10.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation11.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation12.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation13.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation14.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation15.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation16.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation17.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation18.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation19.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation20.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation21.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation22.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation23.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation24.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation25.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation26.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation27.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation28.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation29.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation30.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation31.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation32.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation33.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation34.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation35.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation36.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation37.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation38.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation39.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation40.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation41.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation42.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation43.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation44.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation45.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation46.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation47.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation48.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation49.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation50.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation51.png",
+//            "https://aster12.000webhostapp.com/Frames/wedding/wed_invitation52.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation1.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation2.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation3.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation4.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation5.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation6.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation7.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation8.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation9.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation10.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation11.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation12.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation13.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation14.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation15.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation16.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation17.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation18.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation19.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation20.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation21.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation22.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation23.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation24.png",
+            "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation25.png"
             };
     public  int[] colorIDs = {R.color.black, R.color.white, R.color.grey, R.color.purple, R.color.purple_200, R.color.darkpurple, R.color.teal_200, R.color.teal_700, R.color.pink, R.color.blue, R.color.violet, R.color.darkviolet, R.color.darkblue, R.color.grey, R.color.lightgreen, R.color.darkgreen, R.color.yellow, R.color.lightyellow, R.color.lightorange, R.color.darkorange, R.color.brown, R.color.darkbrown , R.color.lightblue, R.color.lightgreen, R.color.parrotlight, R.color.trustviolet, R.color.purplelight, R.color.bluelight, R.color.redlight, R.color.violetdark};
     public  int[] fontsIDs = {R.font.minion_concept_font, R.font.font1,R.font.newfonts1,R.font.newfonts2,R.font.font3,R.font.newfonts3,R.font.font4,R.font.newfonts4,R.font.font5,R.font.newfonts5,R.font.font6,R.font.newfonts7,R.font.font8,R.font.newfonts8,R.font.font9,R.font.newfonts9,R.font.font10,R.font.newfonts10,R.font.font11,R.font.newfonts11,R.font.font12,R.font.newfonts12,R.font.font13,R.font.newfonts13,R.font.font14,R.font.newfonts14,R.font.font15,R.font.newfonts15,R.font.font16,R.font.newfonts16,R.font.font17,R.font.newfonts17,R.font.font18,R.font.newfonts18,R.font.font19,R.font.newfonts19,R.font.font20,R.font.newfonts20,R.font.font21,R.font.newfonts21,R.font.font22,R.font.newfonts22,R.font.font23,R.font.font24,R.font.newfonts24,R.font.font25,R.font.newfonts25,R.font.font26,R.font.newfonts26,R.font.font27,R.font.newfonts27,R.font.font28,R.font.newfonts28,R.font.font29,R.font.newfonts29,R.font.font30,R.font.font31,R.font.font32,R.font.font33,R.font.font34,R.font.font35,R.font.font36,R.font.font38,R.font.font39,R.font.montserrat, R.font.besbas};
@@ -356,7 +517,7 @@ public class EditorActivity extends AppCompatActivity {
     RelativeLayout linearLayout_frames, linearLayoutColors, linearLayoutFonts, linearLayoutFilters, layoutTextWorkingsLayout, linearLayoutTextOpacity, linearlayoutStickers, linearlayoutStickerAdjustment, linearlayoutStickerColors;
     LinearLayout shadowAdjustmnetLayout;
 
-    AppOpenManager appOpenManager;
+
 
 
     @Override
@@ -370,45 +531,51 @@ public class EditorActivity extends AppCompatActivity {
 
 
 
-        if (!AudienceNetworkAds.isInitialized(this)) {
-            AudienceNetworkAds.initialize(this);
-        }
-
         if(interstitialAdImplement == null)
         {
-            interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd, fbInterstitial);
+            interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd);
+            interstitialAdImplement.loadInterstitialCall();
         }
         interstitialAdImplement.setItemClickListener(new RecyclerListener() {
             @Override
             public void OnClick(int poistion) {
                 //on Ad showed
 //                imageviewBg.setImageResource(drawableFrameBg);
-                Glide.with(EditorActivity.this).load(drawableFrameBg).into(imageviewBg);
+                if (drawableFrameBg != null && imageviewBg != null) {
+                    Glide.with(EditorActivity.this).load(drawableFrameBg).into(imageviewBg);
+                }
                 fbInterstitialReward = 0;
             }
         });
 
-        appOpenManager = new AppOpenManager(EditorActivity.this);
-        interstitialAdImplement.setActivityOpenAd(false);
-
-        Random random = new Random();
-        int rand = random.nextInt(3);
-        if(rand == 1)
-        {
-            appOpenManager.method = 1;
-        }
-        else {
-            interstitialAdImplement.setActivityOpenAd(true);
-            interstitialAdImplement.showInterstitial();
-        }
-
-
-        appOpenManager.setActionListeners(new RecyclerItemClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onItemClick(String category) {
+            public void run() {
 
+//                interstitialAdImplement.setActivityOpenAd(false);
+
+                Random random = new Random();
+                int rand = random.nextInt(3);
+                if(rand == 1)
+                {
+                    appOpenManager.showAdIfAvailable();
+
+                }
+                else {
+                interstitialAdImplement.setActivityOpenAd(true);
+                interstitialAdImplement.showInterstitial();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        interstitialAdImplement.setActivityOpenAd(false);
+                    }
+                }, 1000);
+                }
             }
-        });
+        },3000);
+
+
+
 
         new BannerAdImplement(this, findViewById(R.id.adView));
 
@@ -441,7 +608,7 @@ public class EditorActivity extends AppCompatActivity {
 
          orientationMode = getIntent().getIntExtra("frameCategory", 1);
 
-        drawableFrameBg = squareWedDrawable[0];
+        drawableFrameBg = squareAnniDrawable[0];
         if(orientationMode == 2)
         {
             drawableFrameBg = portraitAnniDrawable[0];
@@ -527,27 +694,6 @@ public class EditorActivity extends AppCompatActivity {
         textShadowDy = 0;
         textShadowRadius = 0;
         activityOpenAd = 0;
-
-//        stickerPramsEditableLayout =  findViewById(R.id.pngManagementLayout);
-//        Display display = getWindowManager().getDefaultDisplay();
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//        display.getMetrics(displayMetrics);
-//        int width = displayMetrics.widthPixels;
-//        stickerPramsEditableLayout.getLayoutParams().height = width;
-//        stickerPramsEditableLayout.getLayoutParams().width = width;
-
-//        imageviewBg.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                stickerView.showBorder = false;
-//                stickerView.showIcons = false;
-//                stickerView.invalidate();
-//                return true;
-//            }
-//        });
-
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, width);
-//        stickerPramsEditableLayout.setLayoutParams(layoutParams);
 
         fbInterstitialReward = 0;
         switchFrameCategoryNo = 0;
@@ -800,7 +946,6 @@ public class EditorActivity extends AppCompatActivity {
                 linearlayoutStickers.setVisibility(View.VISIBLE);
                 addStickerTv.setTextColor(ContextCompat.getColor(EditorActivity.this, R.color.mainAppColor));
                 stickersWorking();
-
             }
         });
 
@@ -1335,7 +1480,7 @@ public class EditorActivity extends AppCompatActivity {
                     adapter_filters.notifyDataSetChanged();
                 }
 
-                appOpenManager.showAdIfAvailable();
+//                appOpenManager.showAdIfAvailable();
 
             } catch (Exception e) {
 //                Toast.makeText(EditorActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();

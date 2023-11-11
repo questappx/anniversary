@@ -92,7 +92,6 @@ public class StickerView extends FrameLayout {
   private float oldRotation = 0f;
 
   @ActionMode private int currentMode = ActionMode.NONE;
-
   public static Sticker handlingSticker;
 
   private boolean locked;

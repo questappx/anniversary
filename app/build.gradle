@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 
-//apply plugin: 'com.google.gms.google-services'
-
 android {
     compileSdkVersion 33
     defaultConfig {
@@ -9,12 +7,12 @@ android {
         applicationId "com.questappx.photoeditor.anniversary"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 9
-        versionName "1.5"
+        versionCode 12
+        versionName "1.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        release {this
             minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -58,7 +56,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     implementation 'androidx.annotation:annotation:1.5.0'
-    implementation 'com.facebook.android:audience-network-sdk:6.11.0'
 
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'com.flying.xiaopo:sticker:1.6.0'
