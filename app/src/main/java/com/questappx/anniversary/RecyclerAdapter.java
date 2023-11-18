@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerHolder>{
 
     Context context;
-    String[] list;
+    ArrayList<String> list;
      int method;
     RecyclerListener listener;
     ProDataListener proDataListener;
@@ -32,12 +34,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     //Method 5 == Stickers
     //Method 10 == Other Apps Pro Frames
 
-    public RecyclerAdapter(Context context, String[] list, int method, RecyclerListener listener) {
+    public RecyclerAdapter(Context context, ArrayList<String> list, int method, RecyclerListener listener) {
         this.context = context;
         this.list = list;
         this.method = method;
         this.listener = listener;
         isPortraitSizeLayout = false;
+    }
+
+    public RecyclerAdapter()
+    {
+
     }
 
     @NonNull
@@ -61,7 +68,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
                 holder.cardGridItem.invalidate();
             }
 //            holder.imageView.setImageResource(list[position]);
-            Glide.with(context).load(list[position]).into(holder.imageView);
+            Glide.with(context).load(list.get(position)).into(holder.imageView);
 
             //to manage pro frames
             if(isProContent(holder.getBindingAdapterPosition()))
@@ -96,7 +103,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         //Colors
         else if(method == 2)
         {
-            holder.imageView.setBackgroundResource(Integer.parseInt(list[position]));
+            holder.imageView.setBackgroundResource(Integer.parseInt(list.get(position)));
 //            Glide.with(context).load(list[position]).listener(new RequestListener<Drawable>() {
 //                @Override
 //                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -130,7 +137,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
 
             if(!(holder.getAdapterPosition() == 0))
-                holder.imageviewFilter.setImageResource(Integer.parseInt(list[position]));
+                holder.imageviewFilter.setImageResource(Integer.parseInt(list.get(position)));
 //                Glide.with(context).load(list[position]).into(holder.imageviewFilter);
         }
 
@@ -140,7 +147,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             //setting black background
             holder.imageView.setBackgroundResource(R.color.lightgrey);
 //            holder.imageviewSticker.setImageResource(list[position]);
-            Glide.with(context).load(list[position]).into(holder.imageviewSticker);
+            Glide.with(context).load(list.get(position)).into(holder.imageviewSticker);
         }
 
 
@@ -153,7 +160,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     }
 
-    int proFrames[] = { 6, 12, 18, 22, 27, 33, 43, 38, 41, 46, 54, 49, 59, 61};
+//    int proFrames[] = { 6, 12, 18, 22, 27, 33, 43, 38, 41, 46, 54, 49, 59, 61};
     private boolean isProContent(int position) {
 //        if(list[position].contains("4") || list[position].contains("3"))
 //        {
@@ -177,7 +184,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     @Override
     public int getItemCount() {
-        return list.length;
+        return list.size();
     }
 
     public class RecyclerHolder extends RecyclerView.ViewHolder {
