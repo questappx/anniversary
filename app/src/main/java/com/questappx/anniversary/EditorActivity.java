@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -90,6 +91,7 @@ public class EditorActivity extends AppCompatActivity {
     CategoryBtnAdapter categoryBtnAdapter;
 
     ArrayList<String> categorylist = new ArrayList<>();
+    RelativeLayout linearlayoutList1;
     int activityOpenAd;
     int fbInterstitialReward;
     int orientationMode;
@@ -533,6 +535,7 @@ public class EditorActivity extends AppCompatActivity {
             "https://questappx.website/apps/anniversary/frames/hny/prt/hny_prt3.png",
             "https://questappx.website/apps/anniversary/frames/hny/prt/hny_prt4.png",
             "https://questappx.website/apps/anniversary/frames/hny/prt/hny_prt5.png",
+            "https://questappx.website/apps/anniversary/frames/jmrd/prt/jmr_prt2.png",
             "https://questappx.website/apps/anniversary/frames/hny/prt/hny_prt6.png",
             "https://questappx.website/apps/anniversary/frames/hny/prt/hny_prt7.png",
             "https://questappx.website/apps/anniversary/frames/hny/prt/hny_prt8.png",
@@ -580,7 +583,6 @@ public class EditorActivity extends AppCompatActivity {
 
     public String[] jmrd_prt = {
             "https://questappx.website/apps/anniversary/frames/jmrd/prt/jmr_prt1.png",
-            "https://questappx.website/apps/anniversary/frames/jmrd/prt/jmr_prt2.png",
             "https://questappx.website/apps/anniversary/frames/jmrd/prt/jmr_prt3.png",
             "https://questappx.website/apps/anniversary/frames/jmrd/prt/jmr_prt4.png",
             "https://questappx.website/apps/anniversary/frames/jmrd/prt/jmr_prt5.png",
@@ -772,6 +774,8 @@ public class EditorActivity extends AppCompatActivity {
         saveImageBtn = findViewById(R.id.saveImgBtn);
         shareAppTv = findViewById(R.id.shareappTv);
         backArrowBtn = findViewById(R.id.backArrowBtn);
+
+        linearlayoutList1 = findViewById(R.id.linearlayoutList1);
 
 
 
@@ -975,8 +979,7 @@ public class EditorActivity extends AppCompatActivity {
                 addLinksToArray(bgsList.get(0),anniInviteDrawable);
                 addLinksToArray(bgsList.get(1),wedInvitationDrawable);
             }
-
-            adapter_frames = new RecyclerAdapter();
+            adapter_frames = new RecyclerAdapter(EditorActivity.this);
         adapter_frames.list = bgsList.get(0);
     }
 
@@ -1881,8 +1884,15 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        AlertDialog diaBox = AskOption();
-        diaBox.show();
+        if(linearlayoutList1.getVisibility() == View.VISIBLE)
+        {
+            linearlayoutList1.setVisibility(View.GONE);
+        }
+        else
+        {
+            AlertDialog diaBox = AskOption();
+            diaBox.show();
+        }
     }
 
     private AlertDialog AskOption()
@@ -1909,10 +1919,16 @@ public class EditorActivity extends AppCompatActivity {
 
     private void framesWorking()
     {
-        LinearLayoutManager linearLayoutManagerframes = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManagerframes = new GridLayoutManager(EditorActivity.this, 2);
+//        LinearLayoutManager linearLayoutManagerframes = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
         RecyclerView recyclerView_frames = findViewById(R.id.recyclerview_frames);
         recyclerView_frames.setLayoutManager(linearLayoutManagerframes);
         recyclerView_frames.setHasFixedSize(true);
+
+        if(linearlayoutList1.getVisibility() == View.GONE)
+        {
+            linearlayoutList1.setVisibility(View.VISIBLE);
+        }
 
 
 
@@ -1922,6 +1938,7 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void OnClick(int position) {
                 Glide.with(EditorActivity.this).load(adapter_frames.list.get(position)).into(imageviewBg);
+                linearlayoutList1.setVisibility(View.GONE);
             }
         });
         adapter_frames.setProDataListener(new ProDataListener() {
@@ -1929,6 +1946,7 @@ public class EditorActivity extends AppCompatActivity {
             public void onClick(int position) {
                 String drawableId = adapter_frames.list.get(position);
                 watchAdToUnlock(drawableId);
+                linearlayoutList1.setVisibility(View.GONE);
 
             }
         });
@@ -1947,6 +1965,11 @@ public class EditorActivity extends AppCompatActivity {
         RecyclerView recyclerView_colors = findViewById(R.id.recyclerview_colors);
         recyclerView_colors.setLayoutManager(linearLayoutManageColors);
         recyclerView_colors.setHasFixedSize(true);
+
+        if(linearlayoutList1.getVisibility() == View.GONE)
+        {
+            linearlayoutList1.setVisibility(View.VISIBLE);
+        }
 
         ImageButton colorPickerBtn = findViewById(R.id.textColorPickerBtn);
         colorPickerBtn.setOnClickListener(new View.OnClickListener() {
@@ -2005,6 +2028,12 @@ public class EditorActivity extends AppCompatActivity {
         RecyclerView recyclerView_fonts = findViewById(R.id.recyclerview_fonts);
         recyclerView_fonts.setLayoutManager(linearLayoutManagerfonts);
         recyclerView_fonts.setHasFixedSize(true);
+
+        if(linearlayoutList1.getVisibility() == View.GONE)
+        {
+            linearlayoutList1.setVisibility(View.VISIBLE);
+        }
+
         FontAdapter adapter_fonts = new FontAdapter(EditorActivity.this, fontsIDs, 3, new RecyclerListener() {
             @Override
             public void OnClick(int position) {
@@ -2223,10 +2252,16 @@ public class EditorActivity extends AppCompatActivity {
 
     private void stickersWorking()
     {
-        LinearLayoutManager linearLayoutManagerStickers = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManagerStickers = new GridLayoutManager(EditorActivity.this, 4);
+//        LinearLayoutManager linearLayoutManagerStickers = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
         RecyclerView recyclerView_stickers = findViewById(R.id.recyclerview_stickers);
         recyclerView_stickers.setLayoutManager(linearLayoutManagerStickers);
         recyclerView_stickers.setHasFixedSize(true);
+
+        if(linearlayoutList1.getVisibility() == View.GONE)
+        {
+            linearlayoutList1.setVisibility(View.VISIBLE);
+        }
         FontAdapter adapter_stickers = new FontAdapter(EditorActivity.this, shapesIDs, 5, new RecyclerListener() {
             @Override
             public void OnClick(int position) {
@@ -2234,6 +2269,8 @@ public class EditorActivity extends AppCompatActivity {
                 com.xiaopo.flying.logoSticker.DrawableSticker drawableSticker = new com.xiaopo.flying.logoSticker.DrawableSticker(drawable);
                 stickerView.addSticker(drawableSticker);
                 stickerView.invalidate();
+
+                linearlayoutList1.setVisibility(View.GONE);
             }
         });
         recyclerView_stickers.setAdapter(adapter_stickers);

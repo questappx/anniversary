@@ -1,12 +1,15 @@
 package com.questappx.anniversary;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -16,6 +19,8 @@ public class CategoryBtnAdapter extends RecyclerView.Adapter<CategoryBtnAdapter.
     Context context;
     List<String> list;
     RecyclerListener listener;
+
+    int recentClickedPos = 0;
 
 
     public CategoryBtnAdapter()
@@ -39,13 +44,26 @@ public class CategoryBtnAdapter extends RecyclerView.Adapter<CategoryBtnAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryBtnHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryBtnHolder holder, @SuppressLint("RecyclerView") int position) {
+
+        if(position == recentClickedPos)
+        {
+            holder.button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.darkgreen)));
+//            holder.button.invalidate();
+        }
+        else
+        {
+            holder.button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.mainAppColor)));
+//            holder.button.invalidate();
+        }
             holder.button.setText(list.get(holder.getAdapterPosition()));
 
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.OnClick(holder.getAbsoluteAdapterPosition());
+                    recentClickedPos = position;
+                    notifyDataSetChanged();
                 }
             });
 

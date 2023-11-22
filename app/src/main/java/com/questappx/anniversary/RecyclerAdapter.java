@@ -2,9 +2,12 @@ package com.questappx.anniversary;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,6 +29,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     RecyclerListener listener;
     ProDataListener proDataListener;
     boolean isPortraitSizeLayout;
+    WindowManager windowManager;
+    Display display;
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    int screenWidth;
+
 
     //Method 1 == frames
     //Method 2 == Colors
@@ -40,11 +48,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         this.method = method;
         this.listener = listener;
         isPortraitSizeLayout = false;
+
+        windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        display =  windowManager.getDefaultDisplay();
+        display.getMetrics(displayMetrics);
+        screenWidth = displayMetrics.widthPixels;
     }
 
-    public RecyclerAdapter()
+    public RecyclerAdapter(Context context)
     {
 
+        windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        display =  windowManager.getDefaultDisplay();
+        display.getMetrics(displayMetrics);
+        screenWidth = displayMetrics.widthPixels;
     }
 
     @NonNull
@@ -64,11 +81,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             if(isPortraitSizeLayout)
             {
                 //to make adapter list card's height portrait
+                holder.cardGridItem.getLayoutParams().width = screenWidth/2;
                 holder.cardGridItem.getLayoutParams().height = (int) ((double)(holder.cardGridItem.getLayoutParams().width) * (1.4d));
                 holder.cardGridItem.invalidate();
             }
+            else
+            {
+                holder.cardGridItem.getLayoutParams().width = screenWidth/2;
+                holder.cardGridItem.getLayoutParams().height = screenWidth/2;
+                holder.cardGridItem.invalidate();
+            }
 //            holder.imageView.setImageResource(list[position]);
-            Glide.with(context).load(list.get(position)).into(holder.imageView);
+            Glide.with(context).load(list.get(position)).placeholder(R.drawable.loading_animation).timeout(5000).error(R.drawable.warning).into(holder.imageView);
 
             //to manage pro frames
             if(isProContent(holder.getBindingAdapterPosition()))

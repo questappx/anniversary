@@ -3,9 +3,12 @@ package com.questappx.anniversary;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +28,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.RecyclerHolder
      int method;
     RecyclerListener listener;
 
+    WindowManager windowManager;
+    Display display;
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    int screenWidth;
+
 
     //Method 1 == frames
     //Method 2 == Colors
@@ -38,6 +46,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.RecyclerHolder
         this.list = list;
         this.method = method;
         this.listener = listener;
+
+        windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        display =  windowManager.getDefaultDisplay();
+        display.getMetrics(displayMetrics);
+        screenWidth = displayMetrics.widthPixels;
     }
 
     @NonNull
@@ -87,6 +100,9 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.RecyclerHolder
         else if(method == 5)
         {
             //setting black background
+            holder.cardGridItem.getLayoutParams().width = screenWidth/4;
+            holder.cardGridItem.getLayoutParams().height = screenWidth/4;
+            holder.cardGridItem.invalidate();
             holder.imageView.setBackgroundResource(R.color.lightgrey);
 //            holder.imageviewSticker.setImageResource(list[position]);
             Glide.with(context).load(list[position]).into(holder.imageviewSticker);
@@ -102,124 +118,6 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.RecyclerHolder
 
     }
 
-    private boolean isProContent(int position) {
-//        if(list[position] == R.drawable.square1)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.square2)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.square6)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.square12)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.square19)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.anni_portrait6)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.anni_portrait14)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.anni_portrait9)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.anni_square11)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.anni_square4)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.anni_square8)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.wed_portrait7)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.wed_portrait19)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.wed_portrait22)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.wed_portrait2)
-//        {
-//            return true;
-//        }
-//
-//        else if(list[position] == R.drawable.wed_portrait24)
-//        {
-//            return true;
-//        }
-//
-//        //Pro Invitation Cards
-//
-//        else if(list[position] == R.drawable.wed_invitation3)
-//        {
-//            return true;
-//        }
-//        else if(list[position] == R.drawable.wed_invitation18)
-//        {
-//            return true;
-//        }
-//        else if(list[position] == R.drawable.wed_invitation24)
-//        {
-//            return true;
-//        }
-//        else if(list[position] == R.drawable.wed_invitation30)
-//        {
-//            return true;
-//        }
-//        else if(list[position] == R.drawable.wed_invitation45)
-//        {
-//            return true;
-//        }
-//        else if(list[position] == R.drawable.wed_invitation43)
-//        {
-//            return true;
-//        }
-//        else if(list[position] == R.drawable.wed_invitation22)
-//        {
-//            return true;
-//        }
-
-//        else
-//        {
-//            return false;
-//        }
-        return false;
-    }
 
     @Override
     public int getItemCount() {
