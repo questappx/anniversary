@@ -708,29 +708,29 @@ public class EditorActivity extends AppCompatActivity {
             interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd);
             interstitialAdImplement.loadInterstitialCall();
         }
-        interstitialAdImplement.setItemClickListener(new RecyclerListener() {
-            @Override
-            public void OnClick(int poistion) {
-                //on Ad showed
-//                imageviewBg.setImageResource(drawableFrameBg);
-                if (drawableFrameBg != null && imageviewBg != null) {
-                    Glide.with(EditorActivity.this).load(drawableFrameBg).into(imageviewBg);
-                }
-                fbInterstitialReward = 0;
-            }
-        });
+//        interstitialAdImplement.setItemClickListener(new RecyclerListener() {
+//            @Override
+//            public void OnClick(int poistion) {
+//                //on Ad showed
+////                imageviewBg.setImageResource(drawableFrameBg);
+//                if (drawableFrameBg != null && imageviewBg != null) {
+//                    Glide.with(EditorActivity.this).load(drawableFrameBg).into(imageviewBg);
+//                }
+//                fbInterstitialReward = 0;
+//            }
+//        });
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-//                interstitialAdImplement.setActivityOpenAd(false);
-
                 Random random = new Random();
                 int rand = random.nextInt(3);
                 if(rand == 1)
                 {
-                    appOpenManager.showAdIfAvailable();
+                    if(appOpenManager != null)
+                    {
+                        appOpenManager.showAdIfAvailable();
+                    }
 
                 }
                 else {

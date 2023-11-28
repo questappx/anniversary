@@ -21,6 +21,8 @@ public class CategoryActivity extends AppCompatActivity {
     TextView squareFramesBtn, portraitFramesBtn, invitationCard, localAppName;
 
     RelativeLayout localAdLayout;
+
+    String adToLoadLink;
     ImageView localAppIcon, localAppFeature;
     AdClass adClass;
 
@@ -54,10 +56,11 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
+//         adToLoadLink = Data.WeddingLink;
         localAdLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                localAd();
+                localAd(adToLoadLink);
             }
         });
 
@@ -92,11 +95,14 @@ public class CategoryActivity extends AppCompatActivity {
         localAppName.setText(adClass.getAppName());
         localAppIcon.setImageResource(adClass.getDrawable());
         localAppFeature.setBackgroundResource(adClass.getFeature());
+        adToLoadLink = adClass.getLink();
+
+
     }
 
-    private void localAd()
+    private void localAd(String link)
     {
-        Uri uri = Uri.parse(Data.WeddingLink);
+        Uri uri = Uri.parse(link);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }

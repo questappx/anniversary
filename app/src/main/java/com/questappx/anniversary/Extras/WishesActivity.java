@@ -1,5 +1,6 @@
 package com.questappx.anniversary.Extras;
 
+import static com.questappx.anniversary.MainActivity.appOpenManager;
 import static com.questappx.anniversary.MainActivity.interstitialAdImplement;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,6 +125,17 @@ public class WishesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wishes);
 
         init();
+
+        if(interstitialAdImplement != null)
+        {
+            interstitialAdImplement.showInterstitial();
+        }
+        else {
+            if(appOpenManager != null)
+            {
+                appOpenManager.showAdIfAvailable();
+            }
+        }
     }
 
     private void init()
