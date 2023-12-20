@@ -6,7 +6,7 @@ android {
         applicationId "com.questappx.photoeditor.anniversary"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 17
+        versionCode 18
         versionName "1.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -60,7 +60,8 @@ dependencies {
     implementation 'com.flying.xiaopo:sticker:1.6.0'
     implementation project(path: ':sticker')
 
-    implementation 'com.google.android.gms:play-services-ads:21.3.0'
+    implementation 'com.google.android.gms:play-services-ads:22.6.0'
+    implementation("com.google.android.ump:user-messaging-platform:2.1.0")
 
 
 }

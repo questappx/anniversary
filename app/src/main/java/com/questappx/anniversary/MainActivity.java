@@ -41,6 +41,7 @@ import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.FormError;
 import com.google.android.ump.UserMessagingPlatform;
+import com.questappx.anniversary.AdsWorking.Gdpr;
 import com.questappx.anniversary.AdsWorking.InterstitialAdImplement;
 import com.questappx.anniversary.Extras.AppOpenManager;
 import com.questappx.anniversary.Extras.CategoryActivity;
@@ -72,15 +73,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstaceState) {
         super.onCreate(savedInstaceState);
         setContentView(R.layout.activity_main);
+        Gdpr gdpr = new Gdpr(this);
+        gdpr.setGdpr();
 
         SplashWorking();
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                loadRewardedAdmobAd(getApplicationContext());
-            }
-        });
+
+        loadRewardedAdmobAd(getApplicationContext());
 
         interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd);
         interstitialAdImplement.loadInterstitialCall();
@@ -91,77 +90,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ConsentDebugSettings debugSettings = new ConsentDebugSettings.Builder(this)
-                .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-//                .addTestDeviceHashedId("TEST-DEVICE-HASHED-ID")
-                .build();
-
-        ConsentRequestParameters params = new ConsentRequestParameters
-                .Builder()
-                .setConsentDebugSettings(debugSettings)
-                .build();
-
-        consentInformation = UserMessagingPlatform.getConsentInformation(this);
-        consentInformation.requestConsentInfoUpdate(
-                this,
-                params,
-                new ConsentInformation.OnConsentInfoUpdateSuccessListener() {
-                    @Override
-                    public void onConsentInfoUpdateSuccess() {
-                        // The consent information state was updated.
-                        // You are now ready to check if a form is available.
-                        if (consentInformation.isConsentFormAvailable()) {
-                            loadForm();
-                        }
-                    }
-                },
-                new ConsentInformation.OnConsentInfoUpdateFailureListener() {
-                    @Override
-                    public void onConsentInfoUpdateFailure(FormError formError) {
-                        // Handle the error.
-                    }
-                });
 
         linkXml();
         clicklisteners();
 
-//        interstitialAdImplement.loadInterstitialCall();
-    }
-
-    private void loadForm() {
-        // Loads a consent form. Must be called on the main thread.
-        UserMessagingPlatform.loadConsentForm(
-                this,
-                new UserMessagingPlatform.OnConsentFormLoadSuccessListener() {
-                    @Override
-                    public void onConsentFormLoadSuccess(ConsentForm consentForm) {
-                        MainActivity.this.consentForm = consentForm;
-                        if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
-                            consentForm.show(
-                                    MainActivity.this,
-                                    new ConsentForm.OnConsentFormDismissedListener() {
-                                        @Override
-                                        public void onConsentFormDismissed(@Nullable FormError formError) {
-                                            if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
-                                                // App can start requesting ads.
-                                            }
-
-                                            // Handle dismissal by reloading form.
-                                            loadForm();
-                                        }
-                                    });
-                        }
-                    }
-                },
-                new UserMessagingPlatform.OnConsentFormLoadFailureListener() {
-                    @Override
-                    public void onConsentFormLoadFailure(FormError formError) {
-                        // Handle the error.
-                    }
-                }
-        );
-
-        //google admob initialization
 
     }
 

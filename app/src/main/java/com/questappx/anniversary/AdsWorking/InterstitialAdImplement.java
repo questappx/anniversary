@@ -26,6 +26,8 @@ public class InterstitialAdImplement {
     Context context;
     InterstitialAd interstitialAd;
 
+    long lastInterstitialShowTime = 0;
+
     boolean activityOpenAd = false;
 
 
@@ -97,9 +99,13 @@ public class InterstitialAdImplement {
 
     public void showInterstitial()
     {
-        if(MainActivity.interstitialAd != null)
-        {
+        long currentTime = System.currentTimeMillis();
+        long elapsedTimeSinceLastShow = currentTime - lastInterstitialShowTime;
+        long oneMinuteInMillis = 60 * 1000;
+
+        if (MainActivity.interstitialAd != null && elapsedTimeSinceLastShow >= oneMinuteInMillis) {
             MainActivity.interstitialAd.show(((Activity) context));
+            lastInterstitialShowTime = currentTime;
         }
     }
 

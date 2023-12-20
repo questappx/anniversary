@@ -708,17 +708,6 @@ public class EditorActivity extends AppCompatActivity {
             interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd);
             interstitialAdImplement.loadInterstitialCall();
         }
-//        interstitialAdImplement.setItemClickListener(new RecyclerListener() {
-//            @Override
-//            public void OnClick(int poistion) {
-//                //on Ad showed
-////                imageviewBg.setImageResource(drawableFrameBg);
-//                if (drawableFrameBg != null && imageviewBg != null) {
-//                    Glide.with(EditorActivity.this).load(drawableFrameBg).into(imageviewBg);
-//                }
-//                fbInterstitialReward = 0;
-//            }
-//        });
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -741,7 +730,7 @@ public class EditorActivity extends AppCompatActivity {
                     public void run() {
                         interstitialAdImplement.setActivityOpenAd(false);
                     }
-                }, 1000);
+                }, 1500);
                 }
             }
         },3000);
@@ -774,12 +763,7 @@ public class EditorActivity extends AppCompatActivity {
         saveImageBtn = findViewById(R.id.saveImgBtn);
         shareAppTv = findViewById(R.id.shareappTv);
         backArrowBtn = findViewById(R.id.backArrowBtn);
-
         linearlayoutList1 = findViewById(R.id.linearlayoutList1);
-
-
-
-
          orientationMode = getIntent().getIntExtra("frameCategory", 1);
 
         drawableFrameBg = squareAnniDrawable[0];
@@ -950,7 +934,6 @@ public class EditorActivity extends AppCompatActivity {
             categorylist.add("Anniversary");
             categorylist.add("Wedding");
         }
-
 
         addFrameData(categorylist.size());
     }
