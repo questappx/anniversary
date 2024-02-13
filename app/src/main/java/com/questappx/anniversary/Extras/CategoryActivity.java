@@ -1,5 +1,7 @@
 package com.questappx.anniversary.Extras;
 
+import static com.questappx.anniversary.Billing.InApp.isPaid;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.questappx.anniversary.AdsWorking.AdClass;
 import com.questappx.anniversary.AdsWorking.LocalAd;
@@ -85,6 +88,21 @@ public class CategoryActivity extends AppCompatActivity {
         localAppFeature = findViewById(R.id.feature_place);
 
         setRandomLocalAd();
+
+        if(isPaid)
+        {
+            localAdLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(isPaid)
+        {
+            localAdLayout.setVisibility(View.GONE);
+        }
     }
 
     private void setRandomLocalAd()

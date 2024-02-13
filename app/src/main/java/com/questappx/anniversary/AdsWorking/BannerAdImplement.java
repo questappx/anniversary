@@ -1,7 +1,11 @@
 package com.questappx.anniversary.AdsWorking;
 
+import static com.questappx.anniversary.Billing.InApp.isPaid;
+
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -39,6 +43,12 @@ public class BannerAdImplement
 
     public void BannerAdLoad()
     {
+        if(isPaid)
+        {
+            ((ViewGroup)adView.getParent()).setVisibility(View.GONE);
+            return;
+        }
+
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
         adView.setAdListener(new com.google.android.gms.ads.AdListener(){

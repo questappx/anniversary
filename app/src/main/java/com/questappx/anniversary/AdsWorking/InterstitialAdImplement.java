@@ -1,5 +1,7 @@
 package com.questappx.anniversary.AdsWorking;
 
+import static com.questappx.anniversary.Billing.InApp.isPaid;
+
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -19,21 +21,20 @@ import com.questappx.anniversary.RecyclerListener;
 
 
 public class InterstitialAdImplement {
-
     RecyclerListener itemClickListener;
-
     private static final String TAG = "InterstitialAdImplement";
     Context context;
     InterstitialAd interstitialAd;
-
     long lastInterstitialShowTime = 0;
-
     boolean activityOpenAd = false;
-
-
     public InterstitialAdImplement(Context context, InterstitialAd interstitialAd) {
         this.context = context;
         this.interstitialAd = interstitialAd;
+        if(isPaid)
+        {
+            return;
+        }
+
     }
 
     public void setItemClickListener(RecyclerListener itemClickListener)
@@ -47,14 +48,15 @@ public class InterstitialAdImplement {
     }
 
     public void loadInterstitialCall() {
+        if(isPaid)
+        {
+            return;
+        }
         AdRequest adRequest = new AdRequest.Builder().build();
         InterstitialAd.load(context, context.getResources().getString(R.string.admob_interstitial), adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
                         MainActivity.interstitialAd = interstitialAd;
                         Log.i(TAG, "Admob : onAdLoaded");
 
@@ -99,6 +101,10 @@ public class InterstitialAdImplement {
 
     public void showInterstitial()
     {
+        if(isPaid) {
+            return;
+        }
+
         long currentTime = System.currentTimeMillis();
         long elapsedTimeSinceLastShow = currentTime - lastInterstitialShowTime;
         long oneMinuteInMillis = 60 * 1000;

@@ -66,7 +66,7 @@ public class Data {
     public static final String FB_INTERSTITIAL_ID = "476626577885401_476627281218664";
     public static final String FB_BANNER_ID = "476626577885401_476627044552021";
 //
-    public static final String ADMOB_REWARDED_ID = "ca-app-pub-7236509513325540/6902445266";
+//    public static final String ADMOB_REWARDED_ID = "ca-app-pub-7236509513325540/6902445266";
 
 
 

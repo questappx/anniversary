@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.questappx.photoeditor.anniversary" />
+                  <option name="mobileSdkAppId" value="1:105928092310:android:cb87c1877bdaaead5870b7" />
+                  <option name="projectId" value="anniversary-photo-frame-646b6" />
+                  <option name="projectNumber" value="105928092310" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -1,6 +1,7 @@
 package com.questappx.anniversary;
 
 import static com.android.volley.VolleyLog.TAG;
+import static com.questappx.anniversary.Billing.InApp.isPaid;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +46,7 @@ import com.google.android.ump.FormError;
 import com.google.android.ump.UserMessagingPlatform;
 import com.questappx.anniversary.AdsWorking.Gdpr;
 import com.questappx.anniversary.AdsWorking.InterstitialAdImplement;
+import com.questappx.anniversary.Billing.InApp;
 import com.questappx.anniversary.Extras.AppOpenManager;
 import com.questappx.anniversary.Extras.CategoryActivity;
 import com.questappx.anniversary.Extras.RateItDialogFragment;
@@ -52,8 +56,12 @@ import com.questappx.anniversary.Extras.WishesActivity;
 
 public class MainActivity extends AppCompatActivity {
     RelativeLayout splashLayout;
+    LinearLayout adsLayout;
     ImageButton createFramesBtn, shareApp, moreApp, quoteBtn, rateusBtn;
     TextView disclaimerBtn,privacyPolicy;
+    ImageView premiumVersionApp;
+
+    public static InApp inApp;
 
     public static AppOpenManager appOpenManager;
 
@@ -61,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static InterstitialAdImplement interstitialAdImplement;
     public static InterstitialAd interstitialAd;
-
-    private ConsentInformation consentInformation;
-    private ConsentForm consentForm;
 
 
     ImageButton quoteapp, birthdayapp, weddingApp;
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         SplashWorking();
 
 
-        loadRewardedAdmobAd(getApplicationContext());
+//        loadRewardedAdmobAd(getApplicationContext());
 
         interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd);
         interstitialAdImplement.loadInterstitialCall();
@@ -98,7 +103,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void linkXml() {
+        inApp = new InApp(this);
         splashLayout = findViewById(R.id.splashScreen);
+        adsLayout = findViewById(R.id.adslayout);
+
+        premiumVersionApp = findViewById(R.id.premiumVersionApp);
 
         createFramesBtn = findViewById(R.id.btn_create);
         shareApp = findViewById(R.id.btn_shareapp);
@@ -114,11 +123,31 @@ public class MainActivity extends AppCompatActivity {
         birthdayapp = findViewById(R.id.tictacAdIv);
         weddingApp = findViewById(R.id.weddingappTv);
 
+        if(isPaid)
+        {
+            premiumVersionApp.setVisibility(View.GONE);
+            adsLayout.setVisibility(View.GONE);
+//            premiumVersionApp.setText("(Subscribed)");
+        }
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(isPaid)
+        {
+            premiumVersionApp.setVisibility(View.GONE);
+            adsLayout.setVisibility(View.GONE);
+//            premiumVersionApp.setText("(Subscribed)");
+        }
     }
 
     public static void loadRewardedAdmobAd(Context context) {
 //        RewardedAd.load(context, String.valueOf(R.string.admob_rewarded_id), new AdRequest.Builder().build(), new RewardedAdLoadCallback() {
-        RewardedAd.load(context, Data.ADMOB_REWARDED_ID, new AdRequest.Builder().build(), new RewardedAdLoadCallback() {
+        RewardedAd.load(context, context.getResources().getString(R.string.admob_rewarded_id), new AdRequest.Builder().build(), new RewardedAdLoadCallback() {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 super.onAdFailedToLoad(loadAdError);
@@ -146,6 +175,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        premiumVersionApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPaid)
+                {
+                    Toast.makeText(MainActivity.this, "Already using Premium Version", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                inApp.showDialog(MainActivity.this);
             }
         });
 
@@ -350,6 +391,51 @@ public class MainActivity extends AppCompatActivity {
             Uri uri = Uri.parse(appLink);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        rateusDialog();
+    }
+
+    private void rateusDialog() {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.rateus_dialog);
+        dialog.show();
+        ImageView buttonCancel = dialog.findViewById(R.id.dialogBtnCancel);
+        ImageView buttonNoThanks = dialog.findViewById(R.id.dialogNoThanks);
+        ImageView buttonOk = dialog.findViewById(R.id.dialogBtnSubmit);
+        if (dialog.getWindow() != null)
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.setCancelable(false);
+
+
+
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                func_rateus();
+                dialog.dismiss();
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        buttonNoThanks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+
     }
 
 

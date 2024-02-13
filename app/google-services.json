@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "105928092310",
+    "project_id": "anniversary-photo-frame-646b6",
+    "storage_bucket": "anniversary-photo-frame-646b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105928092310:android:cb87c1877bdaaead5870b7",
+        "android_client_info": {
+          "package_name": "com.questappx.photoeditor.anniversary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9JKwbaDLzw1xRXyn5WbU7-X0Ip7M_Wc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-7236509513325540~4640799652"
+    }
+  ],
+  "configuration_version": "1"
+}

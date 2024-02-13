@@ -85,12 +85,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_below="@id/localAdLayout"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_5sdp"
         android:weightSum="3"
         >
 

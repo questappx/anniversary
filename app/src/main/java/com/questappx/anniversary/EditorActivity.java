@@ -1,7 +1,9 @@
 package com.questappx.anniversary;
 
 
+import static com.android.volley.VolleyLog.TAG;
 import static com.questappx.anniversary.MainActivity.appOpenManager;
+import static com.questappx.anniversary.MainActivity.inApp;
 import static com.questappx.anniversary.MainActivity.interstitialAd;
 import static com.questappx.anniversary.MainActivity.interstitialAdImplement;
 import static com.questappx.anniversary.MainActivity.loadRewardedAdmobAd;
@@ -17,9 +19,11 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.impl.model.WorkProgressDao_Impl;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,6 +55,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -58,8 +63,14 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.questappx.anniversary.AdsWorking.BannerAdImplement;
 import com.questappx.anniversary.AdsWorking.InterstitialAdImplement;
 import com.questappx.anniversary.Extras.AppOpenManager;
@@ -99,7 +110,7 @@ public class EditorActivity extends AppCompatActivity {
 
     RecyclerAdapter adapter_frames;
 
-    public  String[] squareWedDrawable = {
+    public String[] squareWedDrawable = {
 //            R.drawable.square11,R.drawable.square2,R.drawable.square3,R.drawable.square4,R.drawable.square9,R.drawable.square6,R.drawable.square13,R.drawable.square8,R.drawable.square5,R.drawable.square10,R.drawable.square1,R.drawable.square12,R.drawable.square7,R.drawable.square14
             "https://questappx.website/apps/anniversary/frames/wed/sqr/square1.webp",
             "https://questappx.website/apps/anniversary/frames/wed/sqr/square2.webp",
@@ -121,7 +132,7 @@ public class EditorActivity extends AppCompatActivity {
             "https://questappx.website/apps/anniversary/frames/wed/sqr/square18.webp",
             "https://questappx.website/apps/anniversary/frames/wed/sqr/square19.webp",
             "https://questappx.website/apps/anniversary/frames/wed/sqr/square20.webp"
-            };
+    };
     public String[] portraitAnniDrawable = {
 //            R.drawable.anni_portrait1,R.drawable.anni_portrait2,R.drawable.anni_portrait3,R.drawable.anni_portrait4,R.drawable.anni_portrait5,R.drawable.anni_portrait6,R.drawable.anni_portrait7,R.drawable.anni_portrait8,R.drawable.anni_portrait9,R.drawable.anni_portrait10,R.drawable.anni_portrait11,R.drawable.anni_portrait12,R.drawable.anni_portrait13,R.drawable.anni_portrait14,R.drawable.anni_portrait15,R.drawable.anni_portrait16,R.drawable.anni_portrait17,R.drawable.anni_portrait18,R.drawable.anni_portrait19,R.drawable.anni_portrait20,R.drawable.anni_portrait21,R.drawable.anni_portrait22,R.drawable.anni_portrait23,R.drawable.anni_portrait24,R.drawable.anni_portrait25,R.drawable.anni_portrait26,R.drawable.anni_portrait27,R.drawable.anni_portrait28,R.drawable.anni_portrait29,R.drawable.anni_portrait30,R.drawable.anni_portrait31,R.drawable.anni_portrait32,R.drawable.anni_portrait33,
 //            "https://aster12.000webhostapp.com/Frames/anniversary/anni_portrait1.webp",
@@ -272,7 +283,7 @@ public class EditorActivity extends AppCompatActivity {
             "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square30.webp",
             "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square31.webp",
             "https://questappx.website/apps/anniversary/frames/anni/sqr/anni_square32.webp"
-            };
+    };
     public String[] portraitWedDrawable = {
 //            R.drawable.new_wed_portrait1,R.drawable.new_wed_portrait2,R.drawable.new_wed_portrait3,R.drawable.new_wed_portrait4,R.drawable.new_wed_portrait5,R.drawable.new_wed_portrait6,R.drawable.new_wed_portrait7,R.drawable.new_wed_portrait8,R.drawable.new_wed_portrait9,R.drawable.new_wed_portrait10,R.drawable.new_wed_portrait11,R.drawable.new_wed_portrait12,R.drawable.new_wed_portrait13,R.drawable.new_wed_portrait14,R.drawable.new_wed_portrait15
 //            "https://aster12.000webhostapp.com/Frames/wedding/wed_portrait1.webp",
@@ -423,7 +434,7 @@ public class EditorActivity extends AppCompatActivity {
             "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation48.png",
             "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation49.png",
             "https://questappx.website/apps/anniversary/frames/anni/invite/anni_invitation50.png"
-            };
+    };
 
     public String[] wedInvitationDrawable = {
 //            R.drawable.wed_invitation38,R.drawable.wed_invitation39,R.drawable.wed_invitation40,R.drawable.wed_invitation19,R.drawable.wed_invitation15,R.drawable.wed_invitation43,R.drawable.wed_invitation2,R.drawable.wed_invitation21,R.drawable.wed_invitation9,R.drawable.wed_invitation47,R.drawable.wed_invitation48,R.drawable.wed_invitation49,R.drawable.wed_invitation50
@@ -504,7 +515,7 @@ public class EditorActivity extends AppCompatActivity {
             "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation23.png",
             "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation24.png",
             "https://questappx.website/apps/anniversary/frames/wed/invite/wed_invitation25.png"
-            };
+    };
 
     public String[] hny_sqr = {
             "https://questappx.website/apps/anniversary/frames/hny/sqr/hny_sqr1.png",
@@ -667,10 +678,10 @@ public class EditorActivity extends AppCompatActivity {
 
     };
 
-    public  int[] colorIDs = {R.color.black, R.color.white, R.color.grey, R.color.purple, R.color.purple_200, R.color.darkpurple, R.color.teal_200, R.color.teal_700, R.color.pink, R.color.blue, R.color.violet, R.color.darkviolet, R.color.darkblue, R.color.grey, R.color.lightgreen, R.color.darkgreen, R.color.yellow, R.color.lightyellow, R.color.lightorange, R.color.darkorange, R.color.brown, R.color.darkbrown , R.color.lightblue, R.color.lightgreen, R.color.parrotlight, R.color.trustviolet, R.color.purplelight, R.color.bluelight, R.color.redlight, R.color.violetdark};
-    public  int[] fontsIDs = {R.font.minion_concept_font, R.font.font1,R.font.newfonts1,R.font.newfonts2,R.font.font3,R.font.newfonts3,R.font.font4,R.font.newfonts4,R.font.font5,R.font.newfonts5,R.font.font6,R.font.newfonts7,R.font.font8,R.font.newfonts8,R.font.font9,R.font.newfonts9,R.font.font10,R.font.newfonts10,R.font.font11,R.font.newfonts11,R.font.font12,R.font.newfonts12,R.font.font13,R.font.newfonts13,R.font.font14,R.font.newfonts14,R.font.font15,R.font.newfonts15,R.font.font16,R.font.newfonts16,R.font.font17,R.font.newfonts17,R.font.font18,R.font.newfonts18,R.font.font19,R.font.newfonts19,R.font.font20,R.font.newfonts20,R.font.font21,R.font.newfonts21,R.font.font22,R.font.newfonts22,R.font.font23,R.font.font24,R.font.newfonts24,R.font.font25,R.font.newfonts25,R.font.font26,R.font.newfonts26,R.font.font27,R.font.newfonts27,R.font.font28,R.font.newfonts28,R.font.font29,R.font.newfonts29,R.font.font30,R.font.font31,R.font.font32,R.font.font33,R.font.font34,R.font.font35,R.font.font36,R.font.font38,R.font.font39,R.font.montserrat, R.font.besbas};
-    public  int[] filterIDs = { R.drawable.filter6, R.drawable.filter7, R.color.lightorange, R.drawable.filter8, R.drawable.filter9, R.color.blue,R.drawable.effects_1,R.drawable.effects_2,R.drawable.effects_3,R.drawable.effects_4,R.drawable.effects_5,R.drawable.effects_6,R.drawable.effects_7,R.drawable.effects_8,R.drawable.effects_9,R.drawable.effects_10,R.drawable.effects_11,R.drawable.effects_12,R.drawable.effects_13,R.drawable.effects_14,R.drawable.effects_15,R.drawable.effects_16,R.drawable.effects_17,R.drawable.effects_18,R.drawable.effects_19,R.drawable.effects_20,R.drawable.effects_21,R.drawable.effects_22,R.drawable.effects_23, R.drawable.filter3, R.color.violetdark, R.drawable.filter5, R.drawable.blue_grain_leak, R.drawable.filter1};
-    public  int[] shapesIDs = {R.drawable.anni_s1,R.drawable.anni_s2,R.drawable.anni_s3,R.drawable.anni_s4,R.drawable.anni_s5,R.drawable.anni_s6,R.drawable.anni_s7,R.drawable.anni_s8,R.drawable.anni_s9,R.drawable.anni_s10,R.drawable.anni_s11,R.drawable.anni_s12,R.drawable.anni_s13,R.drawable.anni_s14,R.drawable.anni_s15,R.drawable.anni_s16,R.drawable.anni_s17,R.drawable.anni_s18,R.drawable.anni_s19,R.drawable.anni_s20,R.drawable.anni_s21,R.drawable.anni_s22,R.drawable.anni_s23,R.drawable.anni_s24,R.drawable.anni_s25,R.drawable.anni_s26,R.drawable.anni_s27,R.drawable.anni_s28,R.drawable.anni_s29,R.drawable.anni_s30,R.drawable.anni_s31,R.drawable.anni_s32,R.drawable.anni_s33,R.drawable.anni_s34,R.drawable.anni_s35,R.drawable.anni_s36,R.drawable.anni_s37,R.drawable.anni_s38,R.drawable.anni_s39,R.drawable.anni_s40,R.drawable.anni_s41,R.drawable.anni_s42,R.drawable.anni_s43,R.drawable.anni_s44,R.drawable.anni_s45,R.drawable.anni_s46,R.drawable.anni_s47,R.drawable.anni_s48,R.drawable.anni_s49,R.drawable.anni_s50,R.drawable.anni_s51,R.drawable.anni_s52,R.drawable.anni_s53,R.drawable.anni_s54,R.drawable.anni_s55,R.drawable.anni_s56,R.drawable.anni_s57,R.drawable.anni_s58,R.drawable.anni_s59,R.drawable.anni_s60,R.drawable.anni_s61,R.drawable.anni_s62,R.drawable.anni_s63,R.drawable.anni_s64,R.drawable.anni_s65,R.drawable.anni_s66,R.drawable.anni_s67,R.drawable.anni_s68,R.drawable.anni_s69,R.drawable.anni_s70,R.drawable.anni_s71,R.drawable.anni_s72,R.drawable.anni_s73,R.drawable.anni_s74,R.drawable.anni_s75,R.drawable.anni_s76,R.drawable.anni_s77,R.drawable.anni_s78,R.drawable.anni_s79,R.drawable.anni_s80,R.drawable.anni_s81,R.drawable.anni_s82,R.drawable.anni_s83,R.drawable.anni_s84,R.drawable.anni_s85,R.drawable.anni_s86,R.drawable.anni_s87,R.drawable.anni_s88,R.drawable.anni_s89,R.drawable.anni_s90,R.drawable.anni_s91,R.drawable.anni_s92,R.drawable.anni_s93,R.drawable.anni_s94,R.drawable.anni_s95,R.drawable.anni_s96,R.drawable.anni_s97,R.drawable.anni_s98,R.drawable.anni_s99,R.drawable.anni_s100,R.drawable.anni_s101,R.drawable.anni_s102,R.drawable.anni_s103,R.drawable.anni_s104,R.drawable.anni_s105,R.drawable.anni_s106,R.drawable.anni_s107,R.drawable.anni_s108,R.drawable.anni_s109,R.drawable.anni_s110,R.drawable.anni_s111,R.drawable.anni_s112,R.drawable.anni_s113,R.drawable.anni_s114,R.drawable.anni_s115,R.drawable.anni_s116,R.drawable.anni_s117,R.drawable.anni_s118,R.drawable.anni_s119,R.drawable.anni_s120,R.drawable.anni_s121,R.drawable.anni_s122,R.drawable.anni_s123,R.drawable.anni_s124,R.drawable.anni_s125,R.drawable.anni_s126,R.drawable.anni_s127,R.drawable.anni_s128,R.drawable.anni_s129,R.drawable.anni_s130,R.drawable.anni_s131,R.drawable.anni_s132,R.drawable.anni_s133,R.drawable.anni_s134,R.drawable.anni_s135,R.drawable.anni_s136,R.drawable.anni_s137,R.drawable.anni_s138,R.drawable.anni_s139,R.drawable.anni_s140,R.drawable.anni_s141,R.drawable.anni_s142,R.drawable.anni_s143,R.drawable.wed_sticker1,R.drawable.wed_sticker2,R.drawable.wed_sticker3,R.drawable.wed_sticker4,R.drawable.wed_sticker5,R.drawable.wed_sticker6,R.drawable.wed_sticker7,R.drawable.wed_sticker8,R.drawable.wed_sticker9,R.drawable.wed_sticker10,R.drawable.wed_sticker11,R.drawable.wed_sticker12,R.drawable.wed_sticker13,R.drawable.wed_sticker14,R.drawable.wed_sticker15,R.drawable.wed_sticker16,R.drawable.wed_sticker17,R.drawable.wed_sticker18,R.drawable.wed_sticker19,R.drawable.wed_sticker20,R.drawable.wed_sticker21,R.drawable.wed_sticker22,R.drawable.wed_sticker23,R.drawable.wed_sticker24,R.drawable.wed_sticker25,R.drawable.wed_sticker26,R.drawable.wed_sticker27,R.drawable.wed_sticker28,R.drawable.sticker28,R.drawable.sticker29,R.drawable.sticker30,R.drawable.sticker31,R.drawable.sticker32,R.drawable.sticker33,R.drawable.sticker34,R.drawable.sticker35,R.drawable.sticker36,R.drawable.sticker37,R.drawable.sticker38,R.drawable.sticker39,R.drawable.sticker40,R.drawable.sticker41,R.drawable.sticker42,R.drawable.sticker43,R.drawable.sticker44,R.drawable.sticker45,R.drawable.sticker46,R.drawable.sticker47,R.drawable.sticker48,R.drawable.sticker49,R.drawable.sticker50,R.drawable.sticker51,R.drawable.sticker52,R.drawable.sticker53,R.drawable.sticker54,R.drawable.sticker55,R.drawable.sticker56,R.drawable.sticker57,R.drawable.sticker58,R.drawable.sticker59,R.drawable.sticker60,R.drawable.sticker61,R.drawable.sticker62,R.drawable.sticker63,R.drawable.sticker64,R.drawable.sticker65,R.drawable.sticker21,R.drawable.sticker22,R.drawable.sticker23,R.drawable.sticker24,R.drawable.sticker25,R.drawable.sticker26,R.drawable.sticker27,R.drawable.sticker66,R.drawable.sticker67,R.drawable.sticker68,R.drawable.sticker69,R.drawable.sticker70,R.drawable.sticker71,R.drawable.sticker72,R.drawable.sticker73,R.drawable.sticker74,R.drawable.sticker75,R.drawable.sticker76,R.drawable.sticker77,R.drawable.sticker78,R.drawable.sticker79,R.drawable.sticker80,R.drawable.sticker81,R.drawable.sticker82,R.drawable.sticker83,R.drawable.sticker84,R.drawable.sticker85,R.drawable.sticker86,R.drawable.sticker87,R.drawable.sticker88,R.drawable.sticker89,R.drawable.sticker90,R.drawable.sticker91,R.drawable.sticker92,R.drawable.sticker93,R.drawable.sticker94,R.drawable.sticker95,R.drawable.sticker96,R.drawable.sticker97,R.drawable.sticker98,R.drawable.sticker99,R.drawable.sticker100,R.drawable.sticker101,R.drawable.sticker102,R.drawable.sticker103,R.drawable.sticker104,R.drawable.sticker105,R.drawable.sticker106,R.drawable.sticker107,R.drawable.sticker108,R.drawable.sticker109,R.drawable.sticker110,R.drawable.sticker111,R.drawable.sticker112,R.drawable.sticker113,R.drawable.sticker114,R.drawable.sticker115,R.drawable.sticker116,R.drawable.sticker117,R.drawable.sticker118,R.drawable.sticker119,R.drawable.sticker120,R.drawable.shapes_lg1,R.drawable.shapes_lg2,R.drawable.shapes_lg3,R.drawable.shapes_lg4,R.drawable.shapes_lg5,R.drawable.shapes_lg6,R.drawable.shapes_lg7,R.drawable.shapes_lg8,R.drawable.shapes_lg9,R.drawable.shapes_lg10,R.drawable.shapes_lg11,R.drawable.shapes_lg12,R.drawable.shapes_lg13,R.drawable.shapes_lg14,R.drawable.shapes_lg15,R.drawable.shapes_lg16,R.drawable.shapes_lg17,R.drawable.shapes_lg18,R.drawable.shapes_lg19,R.drawable.shapes_lg20,R.drawable.shapes_lg21,R.drawable.shapes_lg22,R.drawable.shapes_lg23,R.drawable.shapes_lg24,R.drawable.shapes_lg25,R.drawable.shapes_lg26,R.drawable.shapes_lg27,R.drawable.shapes_lg28,R.drawable.shapes_lg29,R.drawable.shapes_lg30,R.drawable.shapes_lg31,R.drawable.shapes_lg32,R.drawable.shapes_lg33,R.drawable.shapes_lg34,R.drawable.shapes_lg35,R.drawable.shapes_lg36,R.drawable.shapes_lg37,R.drawable.shapes_lg38,R.drawable.shapes_lg39,R.drawable.shapes_lg40,R.drawable.shapes_lg41,R.drawable.shapes_lg42,R.drawable.shapes_lg43,R.drawable.shapes_lg44,R.drawable.shapes_lg45,R.drawable.shapes_lg46,R.drawable.shapes_lg47,R.drawable.shapes_lg48,R.drawable.shapes_lg49,R.drawable.shapes_lg50,R.drawable.shapes_lg51,R.drawable.shapes_lg52,R.drawable.shapes_lg53,R.drawable.shapes_lg54,R.drawable.shapes_lg55,R.drawable.shapes_lg56,R.drawable.shapes_lg57,R.drawable.shapes_lg58,R.drawable.shapes_lg59,R.drawable.shapes_lg60,R.drawable.shapes_lg61,R.drawable.shapes_lg62,R.drawable.shapes_lg63,R.drawable.shapes_lg64,R.drawable.shapes_lg65,R.drawable.shapes_lg66,R.drawable.shapes_lg67,R.drawable.shapes_lg68,R.drawable.shapes_lg69,R.drawable.shapes_lg70,R.drawable.shapes_lg71,R.drawable.shapes_lg72,R.drawable.shapes_lg73,R.drawable.shapes_lg74,R.drawable.shapes_lg75,R.drawable.shapes_lg76,R.drawable.shapes_lg77,R.drawable.shapes_lg78,R.drawable.shapes_lg79,R.drawable.shapes_lg80,R.drawable.shapes_lg81,R.drawable.shapes_lg82,R.drawable.shapes_lg83,R.drawable.shapes_lg84,R.drawable.shapes_lg85,R.drawable.shapes_lg86,R.drawable.shapes_lg87,R.drawable.shapes_lg88,R.drawable.shapes_lg89,R.drawable.shapes_lg90,R.drawable.shapes_lg91,R.drawable.shapes_lg92,R.drawable.shapes_lg93,R.drawable.shapes_lg94,R.drawable.shapes_lg95,R.drawable.shapes_lg96,R.drawable.shapes_lg97,R.drawable.shapes_lg98,R.drawable.shapes_lg99,R.drawable.shapes_lg100,R.drawable.shapes_lg101,R.drawable.shapes_lg102,R.drawable.shapes_lg103,R.drawable.shapes_lg104,R.drawable.shapes_lg105,R.drawable.shapes_lg106,R.drawable.shapes_lg107,R.drawable.shapes_lg108,R.drawable.shapes_lg109,R.drawable.shapes_lg110,R.drawable.shapes_lg111,R.drawable.shapes_lg112,R.drawable.shapes_lg113,R.drawable.shapes_lg114,R.drawable.shapes_lg115,R.drawable.shapes_lg116,R.drawable.shapes_lg117,R.drawable.shapes_lg118,R.drawable.shapes_lg119,R.drawable.shapes_lg120,R.drawable.shapes_lg121,R.drawable.shapes_lg122,R.drawable.shapes_lg123,R.drawable.shapes_lg124,R.drawable.shapes_lg125,R.drawable.shapes_lg126,R.drawable.shapes_lg127,R.drawable.shapes_lg128,R.drawable.shapes_lg129,R.drawable.shapes_lg130,R.drawable.shapes_lg131,R.drawable.shapes_lg132,R.drawable.shapes_lg133,R.drawable.shapes_lg134,R.drawable.shapes_lg135,R.drawable.shapes_lg136,R.drawable.shapes_lg137,R.drawable.shapes_lg138,R.drawable.shapes_lg139,R.drawable.shapes_lg140,R.drawable.shapes_lg141,R.drawable.shapes_lg142,R.drawable.shapes_lg143,R.drawable.shapes_lg144,R.drawable.shapes_lg145,R.drawable.shapes_lg146,R.drawable.shapes_lg147,R.drawable.shapes_lg148,R.drawable.shapes_lg149,R.drawable.shapes_lg150,R.drawable.shapes_lg151,R.drawable.shapes_lg152,R.drawable.shapes_lg153,R.drawable.shapes_lg154,R.drawable.shapes_lg155,R.drawable.shapes_lg156,R.drawable.shapes_lg157,R.drawable.shapes_lg158,R.drawable.shapes_lg159,R.drawable.shapes_lg160,R.drawable.shapes_lg161,R.drawable.shapes_lg162,R.drawable.shapes_lg163,R.drawable.shapes_lg164,R.drawable.shapes_lg165,R.drawable.shapes_lg166,R.drawable.shapes_lg167,R.drawable.shapes_lg168,R.drawable.shapes_lg169,R.drawable.shapes_lg170,R.drawable.shapes_lg171};
+    public int[] colorIDs = {R.color.black, R.color.white, R.color.grey, R.color.purple, R.color.purple_200, R.color.darkpurple, R.color.teal_200, R.color.teal_700, R.color.pink, R.color.blue, R.color.violet, R.color.darkviolet, R.color.darkblue, R.color.grey, R.color.lightgreen, R.color.darkgreen, R.color.yellow, R.color.lightyellow, R.color.lightorange, R.color.darkorange, R.color.brown, R.color.darkbrown, R.color.lightblue, R.color.lightgreen, R.color.parrotlight, R.color.trustviolet, R.color.purplelight, R.color.bluelight, R.color.redlight, R.color.violetdark};
+    public int[] fontsIDs = {R.font.minion_concept_font, R.font.font1, R.font.newfonts1, R.font.newfonts2, R.font.font3, R.font.newfonts3, R.font.font4, R.font.newfonts4, R.font.font5, R.font.newfonts5, R.font.font6, R.font.newfonts7, R.font.font8, R.font.newfonts8, R.font.font9, R.font.newfonts9, R.font.font10, R.font.newfonts10, R.font.font11, R.font.newfonts11, R.font.font12, R.font.newfonts12, R.font.font13, R.font.newfonts13, R.font.font14, R.font.newfonts14, R.font.font15, R.font.newfonts15, R.font.font16, R.font.newfonts16, R.font.font17, R.font.newfonts17, R.font.font18, R.font.newfonts18, R.font.font19, R.font.newfonts19, R.font.font20, R.font.newfonts20, R.font.font21, R.font.newfonts21, R.font.font22, R.font.newfonts22, R.font.font23, R.font.font24, R.font.newfonts24, R.font.font25, R.font.newfonts25, R.font.font26, R.font.newfonts26, R.font.font27, R.font.newfonts27, R.font.font28, R.font.newfonts28, R.font.font29, R.font.newfonts29, R.font.font30, R.font.font31, R.font.font32, R.font.font33, R.font.font34, R.font.font35, R.font.font36, R.font.font38, R.font.font39, R.font.montserrat, R.font.besbas};
+    public int[] filterIDs = {R.drawable.filter6, R.drawable.filter7, R.color.lightorange, R.drawable.filter8, R.drawable.filter9, R.color.blue, R.drawable.effects_1, R.drawable.effects_2, R.drawable.effects_3, R.drawable.effects_4, R.drawable.effects_5, R.drawable.effects_6, R.drawable.effects_7, R.drawable.effects_8, R.drawable.effects_9, R.drawable.effects_10, R.drawable.effects_11, R.drawable.effects_12, R.drawable.effects_13, R.drawable.effects_14, R.drawable.effects_15, R.drawable.effects_16, R.drawable.effects_17, R.drawable.effects_18, R.drawable.effects_19, R.drawable.effects_20, R.drawable.effects_21, R.drawable.effects_22, R.drawable.effects_23, R.drawable.filter3, R.color.violetdark, R.drawable.filter5, R.drawable.blue_grain_leak, R.drawable.filter1};
+    public int[] shapesIDs = {R.drawable.anni_s1, R.drawable.anni_s2, R.drawable.anni_s3, R.drawable.anni_s4, R.drawable.anni_s5, R.drawable.anni_s6, R.drawable.anni_s7, R.drawable.anni_s8, R.drawable.anni_s9, R.drawable.anni_s10, R.drawable.anni_s11, R.drawable.anni_s12, R.drawable.anni_s13, R.drawable.anni_s14, R.drawable.anni_s15, R.drawable.anni_s16, R.drawable.anni_s17, R.drawable.anni_s18, R.drawable.anni_s19, R.drawable.anni_s20, R.drawable.anni_s21, R.drawable.anni_s22, R.drawable.anni_s23, R.drawable.anni_s24, R.drawable.anni_s25, R.drawable.anni_s26, R.drawable.anni_s27, R.drawable.anni_s28, R.drawable.anni_s29, R.drawable.anni_s30, R.drawable.anni_s31, R.drawable.anni_s32, R.drawable.anni_s33, R.drawable.anni_s34, R.drawable.anni_s35, R.drawable.anni_s36, R.drawable.anni_s37, R.drawable.anni_s38, R.drawable.anni_s39, R.drawable.anni_s40, R.drawable.anni_s41, R.drawable.anni_s42, R.drawable.anni_s43, R.drawable.anni_s44, R.drawable.anni_s45, R.drawable.anni_s46, R.drawable.anni_s47, R.drawable.anni_s48, R.drawable.anni_s49, R.drawable.anni_s50, R.drawable.anni_s51, R.drawable.anni_s52, R.drawable.anni_s53, R.drawable.anni_s54, R.drawable.anni_s55, R.drawable.anni_s56, R.drawable.anni_s57, R.drawable.anni_s58, R.drawable.anni_s59, R.drawable.anni_s60, R.drawable.anni_s61, R.drawable.anni_s62, R.drawable.anni_s63, R.drawable.anni_s64, R.drawable.anni_s65, R.drawable.anni_s66, R.drawable.anni_s67, R.drawable.anni_s68, R.drawable.anni_s69, R.drawable.anni_s70, R.drawable.anni_s71, R.drawable.anni_s72, R.drawable.anni_s73, R.drawable.anni_s74, R.drawable.anni_s75, R.drawable.anni_s76, R.drawable.anni_s77, R.drawable.anni_s78, R.drawable.anni_s79, R.drawable.anni_s80, R.drawable.anni_s81, R.drawable.anni_s82, R.drawable.anni_s83, R.drawable.anni_s84, R.drawable.anni_s85, R.drawable.anni_s86, R.drawable.anni_s87, R.drawable.anni_s88, R.drawable.anni_s89, R.drawable.anni_s90, R.drawable.anni_s91, R.drawable.anni_s92, R.drawable.anni_s93, R.drawable.anni_s94, R.drawable.anni_s95, R.drawable.anni_s96, R.drawable.anni_s97, R.drawable.anni_s98, R.drawable.anni_s99, R.drawable.anni_s100, R.drawable.anni_s101, R.drawable.anni_s102, R.drawable.anni_s103, R.drawable.anni_s104, R.drawable.anni_s105, R.drawable.anni_s106, R.drawable.anni_s107, R.drawable.anni_s108, R.drawable.anni_s109, R.drawable.anni_s110, R.drawable.anni_s111, R.drawable.anni_s112, R.drawable.anni_s113, R.drawable.anni_s114, R.drawable.anni_s115, R.drawable.anni_s116, R.drawable.anni_s117, R.drawable.anni_s118, R.drawable.anni_s119, R.drawable.anni_s120, R.drawable.anni_s121, R.drawable.anni_s122, R.drawable.anni_s123, R.drawable.anni_s124, R.drawable.anni_s125, R.drawable.anni_s126, R.drawable.anni_s127, R.drawable.anni_s128, R.drawable.anni_s129, R.drawable.anni_s130, R.drawable.anni_s131, R.drawable.anni_s132, R.drawable.anni_s133, R.drawable.anni_s134, R.drawable.anni_s135, R.drawable.anni_s136, R.drawable.anni_s137, R.drawable.anni_s138, R.drawable.anni_s139, R.drawable.anni_s140, R.drawable.anni_s141, R.drawable.anni_s142, R.drawable.anni_s143, R.drawable.wed_sticker1, R.drawable.wed_sticker2, R.drawable.wed_sticker3, R.drawable.wed_sticker4, R.drawable.wed_sticker5, R.drawable.wed_sticker6, R.drawable.wed_sticker7, R.drawable.wed_sticker8, R.drawable.wed_sticker9, R.drawable.wed_sticker10, R.drawable.wed_sticker11, R.drawable.wed_sticker12, R.drawable.wed_sticker13, R.drawable.wed_sticker14, R.drawable.wed_sticker15, R.drawable.wed_sticker16, R.drawable.wed_sticker17, R.drawable.wed_sticker18, R.drawable.wed_sticker19, R.drawable.wed_sticker20, R.drawable.wed_sticker21, R.drawable.wed_sticker22, R.drawable.wed_sticker23, R.drawable.wed_sticker24, R.drawable.wed_sticker25, R.drawable.wed_sticker26, R.drawable.wed_sticker27, R.drawable.wed_sticker28, R.drawable.sticker28, R.drawable.sticker29, R.drawable.sticker30, R.drawable.sticker31, R.drawable.sticker32, R.drawable.sticker33, R.drawable.sticker34, R.drawable.sticker35, R.drawable.sticker36, R.drawable.sticker37, R.drawable.sticker38, R.drawable.sticker39, R.drawable.sticker40, R.drawable.sticker41, R.drawable.sticker42, R.drawable.sticker43, R.drawable.sticker44, R.drawable.sticker45, R.drawable.sticker46, R.drawable.sticker47, R.drawable.sticker48, R.drawable.sticker49, R.drawable.sticker50, R.drawable.sticker51, R.drawable.sticker52, R.drawable.sticker53, R.drawable.sticker54, R.drawable.sticker55, R.drawable.sticker56, R.drawable.sticker57, R.drawable.sticker58, R.drawable.sticker59, R.drawable.sticker60, R.drawable.sticker61, R.drawable.sticker62, R.drawable.sticker63, R.drawable.sticker64, R.drawable.sticker65, R.drawable.sticker21, R.drawable.sticker22, R.drawable.sticker23, R.drawable.sticker24, R.drawable.sticker25, R.drawable.sticker26, R.drawable.sticker27, R.drawable.sticker66, R.drawable.sticker67, R.drawable.sticker68, R.drawable.sticker69, R.drawable.sticker70, R.drawable.sticker71, R.drawable.sticker72, R.drawable.sticker73, R.drawable.sticker74, R.drawable.sticker75, R.drawable.sticker76, R.drawable.sticker77, R.drawable.sticker78, R.drawable.sticker79, R.drawable.sticker80, R.drawable.sticker81, R.drawable.sticker82, R.drawable.sticker83, R.drawable.sticker84, R.drawable.sticker85, R.drawable.sticker86, R.drawable.sticker87, R.drawable.sticker88, R.drawable.sticker89, R.drawable.sticker90, R.drawable.sticker91, R.drawable.sticker92, R.drawable.sticker93, R.drawable.sticker94, R.drawable.sticker95, R.drawable.sticker96, R.drawable.sticker97, R.drawable.sticker98, R.drawable.sticker99, R.drawable.sticker100, R.drawable.sticker101, R.drawable.sticker102, R.drawable.sticker103, R.drawable.sticker104, R.drawable.sticker105, R.drawable.sticker106, R.drawable.sticker107, R.drawable.sticker108, R.drawable.sticker109, R.drawable.sticker110, R.drawable.sticker111, R.drawable.sticker112, R.drawable.sticker113, R.drawable.sticker114, R.drawable.sticker115, R.drawable.sticker116, R.drawable.sticker117, R.drawable.sticker118, R.drawable.sticker119, R.drawable.sticker120, R.drawable.shapes_lg1, R.drawable.shapes_lg2, R.drawable.shapes_lg3, R.drawable.shapes_lg4, R.drawable.shapes_lg5, R.drawable.shapes_lg6, R.drawable.shapes_lg7, R.drawable.shapes_lg8, R.drawable.shapes_lg9, R.drawable.shapes_lg10, R.drawable.shapes_lg11, R.drawable.shapes_lg12, R.drawable.shapes_lg13, R.drawable.shapes_lg14, R.drawable.shapes_lg15, R.drawable.shapes_lg16, R.drawable.shapes_lg17, R.drawable.shapes_lg18, R.drawable.shapes_lg19, R.drawable.shapes_lg20, R.drawable.shapes_lg21, R.drawable.shapes_lg22, R.drawable.shapes_lg23, R.drawable.shapes_lg24, R.drawable.shapes_lg25, R.drawable.shapes_lg26, R.drawable.shapes_lg27, R.drawable.shapes_lg28, R.drawable.shapes_lg29, R.drawable.shapes_lg30, R.drawable.shapes_lg31, R.drawable.shapes_lg32, R.drawable.shapes_lg33, R.drawable.shapes_lg34, R.drawable.shapes_lg35, R.drawable.shapes_lg36, R.drawable.shapes_lg37, R.drawable.shapes_lg38, R.drawable.shapes_lg39, R.drawable.shapes_lg40, R.drawable.shapes_lg41, R.drawable.shapes_lg42, R.drawable.shapes_lg43, R.drawable.shapes_lg44, R.drawable.shapes_lg45, R.drawable.shapes_lg46, R.drawable.shapes_lg47, R.drawable.shapes_lg48, R.drawable.shapes_lg49, R.drawable.shapes_lg50, R.drawable.shapes_lg51, R.drawable.shapes_lg52, R.drawable.shapes_lg53, R.drawable.shapes_lg54, R.drawable.shapes_lg55, R.drawable.shapes_lg56, R.drawable.shapes_lg57, R.drawable.shapes_lg58, R.drawable.shapes_lg59, R.drawable.shapes_lg60, R.drawable.shapes_lg61, R.drawable.shapes_lg62, R.drawable.shapes_lg63, R.drawable.shapes_lg64, R.drawable.shapes_lg65, R.drawable.shapes_lg66, R.drawable.shapes_lg67, R.drawable.shapes_lg68, R.drawable.shapes_lg69, R.drawable.shapes_lg70, R.drawable.shapes_lg71, R.drawable.shapes_lg72, R.drawable.shapes_lg73, R.drawable.shapes_lg74, R.drawable.shapes_lg75, R.drawable.shapes_lg76, R.drawable.shapes_lg77, R.drawable.shapes_lg78, R.drawable.shapes_lg79, R.drawable.shapes_lg80, R.drawable.shapes_lg81, R.drawable.shapes_lg82, R.drawable.shapes_lg83, R.drawable.shapes_lg84, R.drawable.shapes_lg85, R.drawable.shapes_lg86, R.drawable.shapes_lg87, R.drawable.shapes_lg88, R.drawable.shapes_lg89, R.drawable.shapes_lg90, R.drawable.shapes_lg91, R.drawable.shapes_lg92, R.drawable.shapes_lg93, R.drawable.shapes_lg94, R.drawable.shapes_lg95, R.drawable.shapes_lg96, R.drawable.shapes_lg97, R.drawable.shapes_lg98, R.drawable.shapes_lg99, R.drawable.shapes_lg100, R.drawable.shapes_lg101, R.drawable.shapes_lg102, R.drawable.shapes_lg103, R.drawable.shapes_lg104, R.drawable.shapes_lg105, R.drawable.shapes_lg106, R.drawable.shapes_lg107, R.drawable.shapes_lg108, R.drawable.shapes_lg109, R.drawable.shapes_lg110, R.drawable.shapes_lg111, R.drawable.shapes_lg112, R.drawable.shapes_lg113, R.drawable.shapes_lg114, R.drawable.shapes_lg115, R.drawable.shapes_lg116, R.drawable.shapes_lg117, R.drawable.shapes_lg118, R.drawable.shapes_lg119, R.drawable.shapes_lg120, R.drawable.shapes_lg121, R.drawable.shapes_lg122, R.drawable.shapes_lg123, R.drawable.shapes_lg124, R.drawable.shapes_lg125, R.drawable.shapes_lg126, R.drawable.shapes_lg127, R.drawable.shapes_lg128, R.drawable.shapes_lg129, R.drawable.shapes_lg130, R.drawable.shapes_lg131, R.drawable.shapes_lg132, R.drawable.shapes_lg133, R.drawable.shapes_lg134, R.drawable.shapes_lg135, R.drawable.shapes_lg136, R.drawable.shapes_lg137, R.drawable.shapes_lg138, R.drawable.shapes_lg139, R.drawable.shapes_lg140, R.drawable.shapes_lg141, R.drawable.shapes_lg142, R.drawable.shapes_lg143, R.drawable.shapes_lg144, R.drawable.shapes_lg145, R.drawable.shapes_lg146, R.drawable.shapes_lg147, R.drawable.shapes_lg148, R.drawable.shapes_lg149, R.drawable.shapes_lg150, R.drawable.shapes_lg151, R.drawable.shapes_lg152, R.drawable.shapes_lg153, R.drawable.shapes_lg154, R.drawable.shapes_lg155, R.drawable.shapes_lg156, R.drawable.shapes_lg157, R.drawable.shapes_lg158, R.drawable.shapes_lg159, R.drawable.shapes_lg160, R.drawable.shapes_lg161, R.drawable.shapes_lg162, R.drawable.shapes_lg163, R.drawable.shapes_lg164, R.drawable.shapes_lg165, R.drawable.shapes_lg166, R.drawable.shapes_lg167, R.drawable.shapes_lg168, R.drawable.shapes_lg169, R.drawable.shapes_lg170, R.drawable.shapes_lg171};
 
     ImageButton framesBtn, filterBtn, choosePhtoto, textBtn, edittextImgBtn, changeColorImgBtn, textShadowImgBtn, changeFontImgBtn, textShadowColorPicker, changeTextOpacityImgBtn, addStickerBtn, saveImageBtn, backArrowBtn;
     ImageView imageviewBg, imageview_filter;
@@ -680,16 +691,16 @@ public class EditorActivity extends AppCompatActivity {
     public static Uri pickedImage;
     int textShadowRadius, textShadowDx, textShadowDy, textShadowColor;
 
-    TextView tv_frames, tv_filters, tv_crop, tv_text, edittextTv, changeColorTv, textShadowTv, changeFontTv, changeTextOpacityTv, addStickerTv, shareAppTv;
+    TextView tv_frames, tv_filters, tv_crop, tv_text, edittextTv, changeColorTv, textShadowTv, changeFontTv, changeTextOpacityTv, addStickerTv;
     RelativeLayout stickerLayout;
+
+    ImageView shareAppTv, premiumAppVersion;
 
 
     RecyclerView recyclerView_filters;
     FontAdapter adapter_filters;
     RelativeLayout linearLayout_frames, linearLayoutColors, linearLayoutFonts, linearLayoutFilters, layoutTextWorkingsLayout, linearLayoutTextOpacity, linearlayoutStickers, linearlayoutStickerAdjustment, linearlayoutStickerColors;
     LinearLayout shadowAdjustmnetLayout;
-
-
 
 
     @Override
@@ -702,40 +713,42 @@ public class EditorActivity extends AppCompatActivity {
         clickListener();
 
 
-
-        if(interstitialAdImplement == null)
-        {
+        if (interstitialAdImplement == null) {
             interstitialAdImplement = new InterstitialAdImplement(this, interstitialAd);
             interstitialAdImplement.loadInterstitialCall();
         }
 
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setCancelable(false);
+        dialog.setMessage("Loading Ad...");
+        dialog.show();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 Random random = new Random();
                 int rand = random.nextInt(3);
-                if(rand == 1)
-                {
-                    if(appOpenManager != null)
-                    {
+                if (rand == 1) {
+                    if (appOpenManager != null) {
                         appOpenManager.showAdIfAvailable();
                     }
 
+                } else {
+                    interstitialAdImplement.setActivityOpenAd(true);
+                    interstitialAdImplement.showInterstitial();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            interstitialAdImplement.setActivityOpenAd(false);
+                        }
+                    }, 1500);
                 }
-                else {
-                interstitialAdImplement.setActivityOpenAd(true);
-                interstitialAdImplement.showInterstitial();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        interstitialAdImplement.setActivityOpenAd(false);
-                    }
-                }, 1500);
-                }
+
+                dialog.dismiss();
             }
-        },3000);
 
-
+        }, 3000);
 
 
         new BannerAdImplement(this, findViewById(R.id.adView));
@@ -762,22 +775,19 @@ public class EditorActivity extends AppCompatActivity {
         addStickerTv = findViewById(R.id.addStickerTv);
         saveImageBtn = findViewById(R.id.saveImgBtn);
         shareAppTv = findViewById(R.id.shareappTv);
+        premiumAppVersion = findViewById(R.id.premiumAppVersion);
         backArrowBtn = findViewById(R.id.backArrowBtn);
         linearlayoutList1 = findViewById(R.id.linearlayoutList1);
-         orientationMode = getIntent().getIntExtra("frameCategory", 1);
+        orientationMode = getIntent().getIntExtra("frameCategory", 1);
 
         drawableFrameBg = squareAnniDrawable[0];
-        if(orientationMode == 2)
-        {
+        if (orientationMode == 2) {
             drawableFrameBg = portraitAnniDrawable[0];
-        }
-        else if(orientationMode == 3)
-        {
+        } else if (orientationMode == 3) {
             drawableFrameBg = anniInviteDrawable[0];
         }
 
         getCategoryNames();
-
 
 
         stickerView = findViewById(R.id.stickerview);
@@ -896,19 +906,14 @@ public class EditorActivity extends AppCompatActivity {
         changeColorTv = findViewById(R.id.changeColorTv);
         textShadowTv = findViewById(R.id.shadowTv);
 
-        if(orientationMode == 1)
-        {
+        if (orientationMode == 1) {
             imageviewBg.setImageResource(R.drawable.anni_square6);
             setSquareMatrixFrame();
-        }
-        else if(orientationMode == 2)
-        {
+        } else if (orientationMode == 2) {
 //            imageviewBg.setImageResource(R.drawable.portrait3);
             imageviewBg.setImageResource(R.drawable.anni_portrait15);
             setPortraitMatrixFrame();
-        }
-        else if(orientationMode == 3)
-        {
+        } else if (orientationMode == 3) {
             imageviewBg.setImageResource(R.drawable.anni_invitation3);
 
             setPortraitMatrixFrame();
@@ -921,16 +926,13 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void getCategoryNames() {
-        if(orientationMode == 1 || orientationMode == 2)
-        {
+        if (orientationMode == 1 || orientationMode == 2) {
             categorylist.add("Anniversary");
-            categorylist.add( "Wedding");
+            categorylist.add("Wedding");
             categorylist.add("Honeymoon");
             categorylist.add("Just Married");
             categorylist.add("Engagement");
-        }
-        else
-        {
+        } else {
             categorylist.add("Anniversary");
             categorylist.add("Wedding");
         }
@@ -939,93 +941,106 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void addFrameData(int size) {
-        for(int i =0;i<size;i++) {
+        for (int i = 0; i < size; i++) {
             bgsList.add(new ArrayList<>());
         }
-            if(orientationMode == 1)
-            {
-                addLinksToArray(bgsList.get(0),squareAnniDrawable);
-                addLinksToArray(bgsList.get(1),squareWedDrawable);
-                addLinksToArray(bgsList.get(2),hny_sqr);
-                addLinksToArray(bgsList.get(3),jmrd_sqr);
-                addLinksToArray(bgsList.get(4),eng_sqr);
-            }
-            else if(orientationMode == 2)
-            {
-                addLinksToArray(bgsList.get(0),portraitAnniDrawable);
-                addLinksToArray(bgsList.get(1),portraitWedDrawable);
-                addLinksToArray(bgsList.get(2),hny_prt);
-                addLinksToArray(bgsList.get(3),jmrd_prt);
-                addLinksToArray(bgsList.get(4),eng_prt);
-            }
-            else {
-                addLinksToArray(bgsList.get(0),anniInviteDrawable);
-                addLinksToArray(bgsList.get(1),wedInvitationDrawable);
-            }
-            adapter_frames = new RecyclerAdapter(EditorActivity.this);
+        if (orientationMode == 1) {
+            addLinksToArray(bgsList.get(0), squareAnniDrawable);
+            addLinksToArray(bgsList.get(1), squareWedDrawable);
+            addLinksToArray(bgsList.get(2), hny_sqr);
+            addLinksToArray(bgsList.get(3), jmrd_sqr);
+            addLinksToArray(bgsList.get(4), eng_sqr);
+        } else if (orientationMode == 2) {
+            addLinksToArray(bgsList.get(0), portraitAnniDrawable);
+            addLinksToArray(bgsList.get(1), portraitWedDrawable);
+            addLinksToArray(bgsList.get(2), hny_prt);
+            addLinksToArray(bgsList.get(3), jmrd_prt);
+            addLinksToArray(bgsList.get(4), eng_prt);
+        } else {
+            addLinksToArray(bgsList.get(0), anniInviteDrawable);
+            addLinksToArray(bgsList.get(1), wedInvitationDrawable);
+        }
+        adapter_frames = new RecyclerAdapter(EditorActivity.this);
         adapter_frames.list = bgsList.get(0);
     }
 
-    private void addLinksToArray(ArrayList arrayList, String[] frames)
-    {
-        for(int i=0;i<frames.length;i++)
-        {
+    private void addLinksToArray(ArrayList arrayList, String[] frames) {
+        for (int i = 0; i < frames.length; i++) {
             arrayList.add(frames[i]);
         }
     }
 
-    private void setSquareMatrixFrame()
-    {
+    private void setSquareMatrixFrame() {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics displayMetrics = new DisplayMetrics();
         display.getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
 
-        ((RelativeLayout.LayoutParams)layout_artboard.getLayoutParams()).removeRule(RelativeLayout.ABOVE);
+        ((RelativeLayout.LayoutParams) layout_artboard.getLayoutParams()).removeRule(RelativeLayout.ABOVE);
 
         layout_artboard.getLayoutParams().height = width;
         layout_artboard.getLayoutParams().width = width;
     }
 
-    private void setPortraitMatrixFrame()
-    {
+    private void setPortraitMatrixFrame() {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics displayMetrics = new DisplayMetrics();
         display.getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
 
 
-        layout_artboard.getLayoutParams().height = (int) (width * 1.78d);
+        ((RelativeLayout.LayoutParams) layout_artboard.getLayoutParams()).removeRule(RelativeLayout.ABOVE);
+
+        layout_artboard.getLayoutParams().height = (int) (width * 1.6d);
         layout_artboard.getLayoutParams().width = width;
     }
 
 
+    private void showAdmobRewarded(String drawablelink)
+    {
+        mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+            @Override
+            public void onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d(TAG, "Ad was clicked.");
+            }
 
-    private void showAdmobRewarded(String drawable) {
-        if (mRewardedAd != null) {
-            Log.d(TAG, "mRewarded is null");
-            mRewardedAd.show(EditorActivity.this, new OnUserEarnedRewardListener() {
-                @Override
-                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                    // Handle the reward.
-                    Log.d(TAG, "The user earned the reward.");
-                    Toast.makeText(EditorActivity.this, "Frame Unlocked", Toast.LENGTH_SHORT).show();
-//                    int rewardAmount = rewardItem.getAmount();
-//                    String rewardType = rewardItem.getType();
-//                    imageviewBg.setImageResource(drawable);
-                    if(drawable != null)
-                    {
-                        Glide.with(EditorActivity.this).load(drawable).into(imageviewBg);
-                    }
-                    loadRewardedAdmobAd(getApplicationContext());
-                }
-            });
-        } else {
-            Log.d(TAG, "The rewarded ad wasn't ready yet.");
-//            Toast.makeText(this, "Rewarded ad was'nt ready yet.", Toast.LENGTH_SHORT).show();
-            loadRewardedAdmobAd(getApplicationContext());
-            showFbInterstitialForReward(drawable);
-        }
+            @Override
+            public void onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                // Set the ad reference to null so you don't show the ad a second time.
+                Log.d(TAG, "Ad dismissed fullscreen content.");
+                mRewardedAd = null;
+            }
+
+            @Override
+            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                // Called when ad fails to show.
+                Log.e(TAG, "Ad failed to show fullscreen content.");
+                mRewardedAd = null;
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d(TAG, "Ad recorded an impression.");
+            }
+
+            @Override
+            public void onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d(TAG, "Ad showed fullscreen content.");
+
+
+            }
+        });
+
+        mRewardedAd.show(EditorActivity.this, new OnUserEarnedRewardListener() {
+            @Override
+            public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                Glide.with(EditorActivity.this).load(drawablelink).into(imageviewBg);
+            }
+        });
     }
 
     private void showFbInterstitialForReward(String drawable) {
@@ -1041,27 +1056,26 @@ public class EditorActivity extends AppCompatActivity {
     }
 
 
-
-
     @SuppressLint("ClickableViewAccessibility")
     private void watchAdToUnlock(String drawableId) {
         Dialog dialog = new Dialog(EditorActivity.this);
         dialog.setContentView(R.layout.watchad_dialoge);
         dialog.show();
-        Button buttonCancel = dialog.findViewById(R.id.dialogBtnCancel);
-        Button buttonOk = dialog.findViewById(R.id.dialogBtnOk);
+        ImageView buttonCancel = dialog.findViewById(R.id.dialogBtnCancel);
+        ImageView buttonPurchaseApp = dialog.findViewById(R.id.dialogBtnPurchaseApp);
+        ImageView buttonOk = dialog.findViewById(R.id.dialogBtnOk);
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(false);
+//        dialog.setCancelable(false);
 
 
 
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showAdmobRewarded(drawableId);
+                linearlayoutList1.setVisibility(View.GONE);
+                loadAdmobRewarded(drawableId);
 //                showFbInterstitialForReward(drawableId);
-                showAdmobRewarded(drawableId);
                 dialog.dismiss();
             }
         });
@@ -1073,7 +1087,45 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
+        buttonPurchaseApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                inApp.startPurchase();
+            }
+        });
 
+
+
+    }
+
+    private void loadAdmobRewarded(String drawableId) {
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading Ad, Please Wait...");
+        dialog.setCancelable(false);
+        dialog.show();
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        RewardedAd.load(this, String.valueOf(getResources().getString(R.string.admob_rewarded_id)),
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+                        dialog.dismiss();
+                        Log.d(TAG, loadAdError.toString());
+                        Toast.makeText(EditorActivity.this, "Error Loading Ad", Toast.LENGTH_SHORT).show();
+                        mRewardedAd = null;
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd ad) {
+                        dialog.dismiss();
+                        mRewardedAd = ad;
+                        Log.d(TAG, "Ad was loaded.");
+                        showAdmobRewarded(drawableId);
+
+                    }
+                });
     }
 
     private void invisibleList1() {
@@ -1143,6 +1195,13 @@ public class EditorActivity extends AppCompatActivity {
 
         });
 
+        premiumAppVersion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inApp.showDialog(EditorActivity.this);
+            }
+        });
+
         filterBtn.setOnClickListener(v -> {
             invisibleAllLists();
             filtersWorking();
@@ -1193,7 +1252,7 @@ public class EditorActivity extends AppCompatActivity {
                 stickerView.showBorder = false;
                 stickerView.showIcons = false;
                 stickerView.invalidate();
-                Bitmap imagetosave = new SaveImage(EditorActivity.this,layout_artboard).saveAsJPGwORK();
+                Bitmap imagetosave = new SaveImage(EditorActivity.this, layout_artboard).saveAsJPGwORK();
                 showSaveImageDialog(imagetosave);
             }
         });
@@ -1540,11 +1599,8 @@ public class EditorActivity extends AppCompatActivity {
     }
 
 
-
-
     @SuppressLint("ClickableViewAccessibility")
-    public void addTextDialog()
-    {
+    public void addTextDialog() {
         Dialog dialog = new Dialog(EditorActivity.this);
         dialog.setContentView(R.layout.changetext_dialo);
         dialog.show();
@@ -1567,8 +1623,7 @@ public class EditorActivity extends AppCompatActivity {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(editTextDialog.getText().toString()))
-                {
+                if (TextUtils.isEmpty(editTextDialog.getText().toString())) {
                     dialog.dismiss();
                     Toast.makeText(EditorActivity.this, "Please Enter text", Toast.LENGTH_SHORT).show();
 
@@ -1599,8 +1654,7 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
-    private void editText()
-    {
+    private void editText() {
         Dialog dialog = new Dialog(EditorActivity.this);
         dialog.setContentView(R.layout.changetext_dialo);
         dialog.show();
@@ -1623,8 +1677,7 @@ public class EditorActivity extends AppCompatActivity {
                 assert textSticker != null;
                 edittextTv.setTextColor(ContextCompat.getColor(EditorActivity.this, R.color.lightblack));
 
-                if (TextUtils.isEmpty(editTextDialog.getText().toString()))
-                {
+                if (TextUtils.isEmpty(editTextDialog.getText().toString())) {
                     dialog.dismiss();
                     Toast.makeText(EditorActivity.this, "Please Enter text", Toast.LENGTH_SHORT).show();
                     return;
@@ -1649,8 +1702,7 @@ public class EditorActivity extends AppCompatActivity {
 
 
     @SuppressLint("ResourceAsColor")
-    private void addText(String name)
-    {
+    private void addText(String name) {
         TextSticker textSticker = new TextSticker(this);
         textSticker.setText(name);
 
@@ -1694,14 +1746,11 @@ public class EditorActivity extends AppCompatActivity {
                 InputStream inputStream = getContentResolver().openInputStream(pickedImage);
                 Drawable drawable = Drawable.createFromStream(inputStream, pickedImage.toString());
 
-                if(orientationMode == 3)
-                {
+                if (orientationMode == 3) {
                     com.xiaopo.flying.logoSticker.DrawableSticker sticker = new com.xiaopo.flying.logoSticker.DrawableSticker(drawable);
                     stickerView.addSticker(sticker);
                     stickerView.invalidate();
-                }
-                else
-                {
+                } else {
                     com.xiaopo.flying.sticker.DrawableSticker sticker = new com.xiaopo.flying.sticker.DrawableSticker(drawable);
                     stickerView_image.removeAllStickers();
                     stickerView_image.addSticker(sticker);
@@ -1719,8 +1768,6 @@ public class EditorActivity extends AppCompatActivity {
 
         invisibleAllLists();
     }
-
-
 
 
     public void saveImage() {
@@ -1867,20 +1914,16 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        if(linearlayoutList1.getVisibility() == View.VISIBLE)
-        {
+        if (linearlayoutList1.getVisibility() == View.VISIBLE) {
             linearlayoutList1.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             AlertDialog diaBox = AskOption();
             diaBox.show();
         }
     }
 
-    private AlertDialog AskOption()
-    {
-        AlertDialog myQuittingDialogBox =new AlertDialog.Builder(this)
+    private AlertDialog AskOption() {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
                 .setTitle("Alert")
                 .setMessage("Changes may not be saved. Are you sure you want to exit?")
 
@@ -1900,24 +1943,19 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
-    private void framesWorking()
-    {
+    private void framesWorking() {
         LinearLayoutManager linearLayoutManagerframes = new GridLayoutManager(EditorActivity.this, 2);
 //        LinearLayoutManager linearLayoutManagerframes = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
         RecyclerView recyclerView_frames = findViewById(R.id.recyclerview_frames);
         recyclerView_frames.setLayoutManager(linearLayoutManagerframes);
         recyclerView_frames.setHasFixedSize(true);
 
-        if(linearlayoutList1.getVisibility() == View.GONE)
-        {
+        if (linearlayoutList1.getVisibility() == View.GONE) {
             linearlayoutList1.setVisibility(View.VISIBLE);
         }
 
 
-
-
-
-        adapter_frames = new RecyclerAdapter(EditorActivity.this, bgsList.get(0),1, new RecyclerListener() {
+        adapter_frames = new RecyclerAdapter(EditorActivity.this, bgsList.get(0), 1, new RecyclerListener() {
             @Override
             public void OnClick(int position) {
                 Glide.with(EditorActivity.this).load(adapter_frames.list.get(position)).into(imageviewBg);
@@ -1929,12 +1967,10 @@ public class EditorActivity extends AppCompatActivity {
             public void onClick(int position) {
                 String drawableId = adapter_frames.list.get(position);
                 watchAdToUnlock(drawableId);
-                linearlayoutList1.setVisibility(View.GONE);
 
             }
         });
-        if(orientationMode != 1)
-        {
+        if (orientationMode != 1) {
             adapter_frames.setPortraitSizeLayout(true);
         }
         recyclerView_frames.setAdapter(adapter_frames);
@@ -1942,15 +1978,13 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
-    private void colorsWorking()
-    {
-        LinearLayoutManager linearLayoutManageColors = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
+    private void colorsWorking() {
+        LinearLayoutManager linearLayoutManageColors = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView_colors = findViewById(R.id.recyclerview_colors);
         recyclerView_colors.setLayoutManager(linearLayoutManageColors);
         recyclerView_colors.setHasFixedSize(true);
 
-        if(linearlayoutList1.getVisibility() == View.GONE)
-        {
+        if (linearlayoutList1.getVisibility() == View.GONE) {
             linearlayoutList1.setVisibility(View.VISIBLE);
         }
 
@@ -1967,32 +2001,27 @@ public class EditorActivity extends AppCompatActivity {
                     @Override
                     public void onOk(AmbilWarnaDialog dialog, int color) {
                         try {
-                            if (stickerView.getCurrentSticker()instanceof TextSticker)
-                            {
-                                ((TextSticker)stickerView.getCurrentSticker()).setTextColor(color);
+                            if (stickerView.getCurrentSticker() instanceof TextSticker) {
+                                ((TextSticker) stickerView.getCurrentSticker()).setTextColor(color);
                                 stickerView.invalidate();
-                            }
-                            else
-                            {
+                            } else {
                                 Toast.makeText(EditorActivity.this, "Select Text", Toast.LENGTH_SHORT).show();
                             }
-                        }catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                });dialog.show();
+                });
+                dialog.show();
             }
         });
-
 
 
         FontAdapter adapter_colors = new FontAdapter(EditorActivity.this, colorIDs, 2, new RecyclerListener() {
             @Override
             public void OnClick(int position) {
                 TextSticker sticker = (TextSticker) stickerView.getCurrentSticker();
-                if(sticker == null)
-                {
+                if (sticker == null) {
                     Toast.makeText(EditorActivity.this, "Please select any text first", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -2005,15 +2034,13 @@ public class EditorActivity extends AppCompatActivity {
         recyclerView_colors.setAdapter(adapter_colors);
     }
 
-    private void fontWorking()
-    {
-        LinearLayoutManager linearLayoutManagerfonts = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
+    private void fontWorking() {
+        LinearLayoutManager linearLayoutManagerfonts = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView_fonts = findViewById(R.id.recyclerview_fonts);
         recyclerView_fonts.setLayoutManager(linearLayoutManagerfonts);
         recyclerView_fonts.setHasFixedSize(true);
 
-        if(linearlayoutList1.getVisibility() == View.GONE)
-        {
+        if (linearlayoutList1.getVisibility() == View.GONE) {
             linearlayoutList1.setVisibility(View.VISIBLE);
         }
 
@@ -2021,8 +2048,7 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void OnClick(int position) {
                 TextSticker sticker = (TextSticker) stickerView.getCurrentSticker();
-                if(sticker == null)
-                {
+                if (sticker == null) {
                     Toast.makeText(EditorActivity.this, "Please select any text first", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -2048,64 +2074,49 @@ public class EditorActivity extends AppCompatActivity {
         String appLink;
 
         int randomAd = randomLocalAd();
-        if(randomAd == 1)
-        {
+        if (randomAd == 1) {
             Glide.with(EditorActivity.this).load(Data.App1Drawable).into(adImg);
 //            adImg.setImageResource(Data.App1Drawable);
             adTitle.setText(Data.App1Title);
             adDesc.setText(Data.App1Desc);
             appLink = Data.App1Link;
-        }
-        else if(randomAd == 2)
-        {
+        } else if (randomAd == 2) {
             Glide.with(EditorActivity.this).load(Data.App2Drawable).into(adImg);
 //            adImg.setImageResource(Data.App2Drawable);
             adTitle.setText(Data.App2Title);
             adDesc.setText(Data.App2Desc);
             appLink = Data.App2Link;
-        }
-        else if(randomAd == 3)
-        {
+        } else if (randomAd == 3) {
             Glide.with(EditorActivity.this).load(Data.App3Drawable).into(adImg);
 //            adImg.setImageResource(Data.App3Drawable);
             adTitle.setText(Data.App3Title);
             adDesc.setText(Data.App3Desc);
             appLink = Data.App3Link;
-        }
-        else if(randomAd == 4)
-        {
+        } else if (randomAd == 4) {
             Glide.with(EditorActivity.this).load(Data.App4Drawable).into(adImg);
 //            adImg.setImageResource(Data.App4Drawable);
             adTitle.setText(Data.App4Title);
             adDesc.setText(Data.App4Desc);
             appLink = Data.App4Link;
-        }
-        else if(randomAd == 5)
-        {
+        } else if (randomAd == 5) {
             Glide.with(EditorActivity.this).load(Data.App5Drawable).into(adImg);
 //            adImg.setImageResource(Data.App5Drawable);
             adTitle.setText(Data.App5Title);
             adDesc.setText(Data.App5Desc);
             appLink = Data.App5Link;
-        }
-        else if(randomAd == 6)
-        {
+        } else if (randomAd == 6) {
             Glide.with(EditorActivity.this).load(Data.App6Drawable).into(adImg);
 //            adImg.setImageResource(Data.App6Drawable);
             adTitle.setText(Data.App6Title);
             adDesc.setText(Data.App6Desc);
             appLink = Data.App6Link;
-        }
-        else if(randomAd == 7)
-        {
+        } else if (randomAd == 7) {
             Glide.with(EditorActivity.this).load(Data.App7Drawable).into(adImg);
 //            adImg.setImageResource(Data.App7Drawable);
             adTitle.setText(Data.App7Title);
             adDesc.setText(Data.App7Desc);
             appLink = Data.App7Link;
-        }
-        else
-        {
+        } else {
             Glide.with(EditorActivity.this).load(Data.App1Drawable).into(adImg);
 //            adImg.setImageResource(Data.App1Drawable);
             adTitle.setText(Data.App1Title);
@@ -2120,7 +2131,6 @@ public class EditorActivity extends AppCompatActivity {
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
-
 
 
         buttonOk.setOnClickListener(new View.OnClickListener() {
@@ -2140,15 +2150,13 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
-    private void moreapp(String link)
-    {
+    private void moreapp(String link) {
         Uri uri = Uri.parse(link);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
 
-    private int randomLocalAd()
-    {
+    private int randomLocalAd() {
         Random rn = new Random();
         int answer = rn.nextInt(7) + 1;
 
@@ -2156,44 +2164,31 @@ public class EditorActivity extends AppCompatActivity {
     }
 
 
-
-    private void filtersWorking()
-    {
+    private void filtersWorking() {
         ImageView imageViewfilterUpside = findViewById(R.id.imageview_filterUpside);
-        LinearLayoutManager linearLayoutManagerfilters = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManagerfilters = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView_filters.setLayoutManager(linearLayoutManagerfilters);
         recyclerView_filters.setHasFixedSize(true);
         adapter_filters = new FontAdapter(EditorActivity.this, filterIDs, 4, new RecyclerListener() {
             @Override
             public void OnClick(int position) {
-                if(position == 0)
-                {
-                    if(orientationMode == 3)
-                    {
-                        if(imageViewfilterUpside.getVisibility() == View.VISIBLE)
-                        {
+                if (position == 0) {
+                    if (orientationMode == 3) {
+                        if (imageViewfilterUpside.getVisibility() == View.VISIBLE) {
                             imageViewfilterUpside.setVisibility(View.GONE);
                         }
-                    }
-                    else
-                    {
-                        if(imageview_filter.getVisibility() == View.VISIBLE)
-                        {
+                    } else {
+                        if (imageview_filter.getVisibility() == View.VISIBLE) {
                             imageview_filter.setVisibility(View.GONE);
                         }
                     }
-                }
-                else
-                {
-                    if(orientationMode == 3)
-                    {
+                } else {
+                    if (orientationMode == 3) {
                         imageViewfilterUpside.setImageResource(filterIDs[position]);
-                        if(imageViewfilterUpside.getVisibility() == View.GONE)
-                        {
+                        if (imageViewfilterUpside.getVisibility() == View.GONE) {
                             imageViewfilterUpside.setVisibility(View.VISIBLE);
                         }
-                    }
-                    else {
+                    } else {
                         imageview_filter.setImageResource(filterIDs[position]);
                         if (imageview_filter.getVisibility() == View.GONE) {
                             imageview_filter.setVisibility(View.VISIBLE);
@@ -2210,12 +2205,10 @@ public class EditorActivity extends AppCompatActivity {
         seekBarFilters.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(orientationMode == 3)
-                {
+                if (orientationMode == 3) {
                     imageViewfilterUpside.setAlpha(progress);
                     imageViewfilterUpside.invalidate();
-                }
-                else{
+                } else {
                     imageview_filter.setAlpha(progress);
                     imageview_filter.invalidate();
                 }
@@ -2233,16 +2226,14 @@ public class EditorActivity extends AppCompatActivity {
         });
     }
 
-    private void stickersWorking()
-    {
+    private void stickersWorking() {
         LinearLayoutManager linearLayoutManagerStickers = new GridLayoutManager(EditorActivity.this, 4);
 //        LinearLayoutManager linearLayoutManagerStickers = new LinearLayoutManager(EditorActivity.this, LinearLayoutManager.HORIZONTAL,false);
         RecyclerView recyclerView_stickers = findViewById(R.id.recyclerview_stickers);
         recyclerView_stickers.setLayoutManager(linearLayoutManagerStickers);
         recyclerView_stickers.setHasFixedSize(true);
 
-        if(linearlayoutList1.getVisibility() == View.GONE)
-        {
+        if (linearlayoutList1.getVisibility() == View.GONE) {
             linearlayoutList1.setVisibility(View.VISIBLE);
         }
         FontAdapter adapter_stickers = new FontAdapter(EditorActivity.this, shapesIDs, 5, new RecyclerListener() {
@@ -2259,30 +2250,26 @@ public class EditorActivity extends AppCompatActivity {
         recyclerView_stickers.setAdapter(adapter_stickers);
     }
 
-    public void invisibleList1(View view)
-    {
+    public void invisibleList1(View view) {
         invisibleList1();
         invisibleList2();
     }
 
-    private void func_shareapp()
-    {
+    private void func_shareapp() {
         try {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.app_name);
-            String shareMessage= "\nLet your Friends know that you are using this app... Install now from link below:\n\n";
+            String shareMessage = "\nLet your Friends know that you are using this app... Install now from link below:\n\n";
             String appLink = "https://play.google.com/store/apps/details?id=" + getPackageName();
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage+appLink);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage + appLink);
             startActivity(Intent.createChooser(shareIntent, "choose one"));
-        } catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void func_NewYearEditor()
-    {
+    private void func_NewYearEditor() {
         Uri uri = Uri.parse(Data.NewYearEditorLink);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);

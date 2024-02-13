@@ -21,7 +21,9 @@
         android:id="@+id/fbAdLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
+        android:visibility="gone"
         android:layout_below="@id/title">
+
 
         <TextView
             android:layout_width="wrap_content"

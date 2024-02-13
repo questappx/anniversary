@@ -2,6 +2,8 @@ package com.questappx.anniversary.Extras;
 
 import static androidx.lifecycle.Lifecycle.Event.ON_START;
 
+import static com.questappx.anniversary.Billing.InApp.isPaid;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -45,6 +47,10 @@ public class AppOpenManager implements LifecycleObserver, Application.ActivityLi
 
     /** Shows the ad if one isn't already showing. */
     public void showAdIfAvailable() {
+        if(isPaid)
+        {
+            return;
+        }
         // Only show ad if there is not already an app open ad currently showing
         // and an ad is available.
         if (!isShowingAd && isAdAvailable()) {
@@ -100,6 +106,10 @@ public class AppOpenManager implements LifecycleObserver, Application.ActivityLi
     /** Request an ad */
     public void fetchAd()
     {
+        if(isPaid)
+        {
+            return;
+        }
         // We will implement this below.
 
         // Have unused ad, no need to fetch another.

@@ -1,5 +1,7 @@
 package com.questappx.anniversary;
 
+import static com.questappx.anniversary.Billing.InApp.isPaid;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -95,19 +97,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             Glide.with(context).load(list.get(position)).placeholder(R.drawable.loading_animation).timeout(5000).error(R.drawable.warning).into(holder.imageView);
 
             //to manage pro frames
-            if(isProContent(holder.getBindingAdapterPosition()))
+            if(isPaid)
             {
-                if(holder.proData.getVisibility() == View.GONE)
-                {
-                    holder.proData.setVisibility(View.VISIBLE);
-                }
+                holder.proLayout.setVisibility(View.GONE);
+            }
+            else if(position >= (list.size()/1.7))
+            {
+                holder.proLayout.setVisibility(View.VISIBLE);
             }
             else
             {
-                if(holder.proData.getVisibility() == View.VISIBLE)
-                {
-                    holder.proData.setVisibility(View.GONE);
-                }
+                holder.proLayout.setVisibility(View.GONE);
             }
 
 
@@ -116,7 +116,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 //            {
 //                holder.proData.setVisibility(View.VISIBLE);
 //
-                holder.proData.setOnClickListener(new View.OnClickListener() {
+                holder.proLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         proDataListener.onClick(position);
@@ -186,6 +186,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
 //    int proFrames[] = { 6, 12, 18, 22, 27, 33, 43, 38, 41, 46, 54, 49, 59, 61};
     private boolean isProContent(int position) {
+        return position>(list.size()/1.3);
 //        if(list[position].contains("4") || list[position].contains("3"))
 //        {
 //            return true;
@@ -198,7 +199,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 //                return true;
 //            }
 //        }
-        return false;
+//        return false;
     }
 
     public void setProDataListener(ProDataListener listener)
@@ -216,7 +217,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         ImageView imageView, imageviewSticker;
         TextView textFont;
         ImageView imageviewFilter;
-        RelativeLayout proData;
+        RelativeLayout proLayout;
         CardView cardGridItem;
 
         public RecyclerHolder(View view) {
@@ -226,7 +227,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             textFont = view.findViewById(R.id.textFont);
             imageviewFilter = view.findViewById(R.id.imageview_filteritem);
             imageviewSticker = view.findViewById(R.id.imageviewSticker);
-            proData = view.findViewById(R.id.proDataLayout);
+            proLayout = view.findViewById(R.id.proDataLayout);
             cardGridItem = view.findViewById(R.id.cardGridItem);
         }
     }
